@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="e767a953-360b-4ee4-80d6-ea606b860401" name="diploma" url="https://dp.melnev.ru">
+        <fileTransfer rootFolder="/var/www/u2004972/data/www/dp.melnev.ru" accessType="SFTP" host="31.31.196.4" port="22" sshConfigId="22671345-bc01-4ddd-9d18-4f2355d6ddec" sshConfig="u2004972@31.31.196.4:22">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
