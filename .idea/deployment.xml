@@ -11,6 +11,9 @@
             <excludedPath local="true" path="$PROJECT_DIR$/.idea" />
             <excludedPath local="true" path="$PROJECT_DIR$/var" />
             <excludedPath local="true" path="$PROJECT_DIR$/vendor" />
+            <excludedPath path="/.env.local" />
+            <excludedPath path="/var" />
+            <excludedPath path="/vendor" />
           </excludedPaths>
         </serverdata>
       </paths>
