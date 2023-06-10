@@ -14,6 +14,7 @@
             <excludedPath path="/.env.local" />
             <excludedPath path="/var" />
             <excludedPath path="/vendor" />
+            <excludedPath path="/node_modules" />
           </excludedPaths>
         </serverdata>
       </paths>
