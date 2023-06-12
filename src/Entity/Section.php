@@ -24,10 +24,6 @@ class Section
      */
     private $name;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Section::class)
-     */
-    private $parent;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -43,6 +39,11 @@ class Section
      * @ORM\OneToMany(targetEntity=Product::class, mappedBy="section")
      */
     private $products;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=SectionGroup::class, inversedBy="sections")
+     */
+    private $parent;
 
     public function __construct()
     {
@@ -62,18 +63,6 @@ class Section
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getParent(): ?self
-    {
-        return $this->parent;
-    }
-
-    public function setParent(?self $parent): self
-    {
-        $this->parent = $parent;
 
         return $this;
     }
@@ -128,6 +117,18 @@ class Section
                 $product->setSection(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getParent(): ?SectionGroup
+    {
+        return $this->parent;
+    }
+
+    public function setParent(?SectionGroup $parent): self
+    {
+        $this->parent = $parent;
 
         return $this;
     }
