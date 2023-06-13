@@ -7,13 +7,20 @@ use Doctrine\Persistence\ObjectManager;
 
 class SectionGroupFixtures extends BaseFixtures
 {
+
     function loadData(ObjectManager $manager)
     {
-        $this->createMany(SectionGroup::class, 3, function (SectionGroup $section) use ($manager) {
-            $section
-                ->setName($this->faker->colorName)
-                ->setIcon('img/icons/departments/' . $this->faker->numberBetween(1,12) . '.svg');
-        });
+
+        $items = ["Электроника", "Бытовая техника", "Гаджеты"];
+        $i = 0;
+        foreach ($items as $item) {
+            $entity = $this->create(SectionGroup::class, function (SectionGroup $section) use($item) {
+                $section
+                    ->setName($item)
+                    ->setIcon($this->faker->numberBetween(1, 12) . '.svg');
+            });
+            $this->addReference(SectionGroup::class . "|" . $i++, $entity);
+        }
         $this->manager->flush();
     }
 }

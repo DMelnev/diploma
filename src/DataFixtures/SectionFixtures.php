@@ -13,15 +13,32 @@ class SectionFixtures extends BaseFixtures implements DependentFixtureInterface
     function loadData(ObjectManager $manager)
     {
 
-        $this->createMany(Section::class, 30, function (Section $section) use ($manager) {
-
-            $section
-                ->setName($this->faker->colorName)
-                ->setIcon('img/icons/departments/' . $this->faker->numberBetween(1, 12) . '.svg');
-            if ($this->faker->boolean(30)) {
-                $section->setParent($this->getRandomReference(SectionGroup::class));
-            }
-        });
+        $items = [
+            1 => "Мониторы",
+            2 => "Наушники",
+            3 => "Стиральные машины",
+            4 => "Аксессуары",
+            5 => "Акустика",
+            6 => "Фотоаппараты",
+            7 => "Газовые плиты",
+            8 => "Смартфоны",
+            9 => "Микроволновки",
+            10 => "Чайники",
+            11 => "Бра",
+            12 => "Кофемолки",
+        ];
+        $i = 0;
+        foreach ($items as $id => $item) {
+            $entity = $this->create(Section::class, function (Section $section) use ($id, $item) {
+                $section
+                    ->setName($item)
+                    ->setIcon($id . '.svg');
+                if ($this->faker->boolean(40)) {
+                    $section->setParent($this->getRandomReference(SectionGroup::class));
+                }
+            });
+            $this->addReference(Section::class . "|" . $i++, $entity);
+        }
         $this->manager->flush();
     }
 

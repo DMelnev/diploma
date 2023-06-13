@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20230612185140 extends AbstractMigration
+final class Version20230613194052 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -25,7 +25,7 @@ final class Version20230612185140 extends AbstractMigration
         $this->addSql('CREATE TABLE banner (id INT AUTO_INCREMENT NOT NULL, picture VARCHAR(255) NOT NULL, description VARCHAR(255) NOT NULL, link VARCHAR(255) NOT NULL, sxpiried_at DATETIME NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE cart (id INT AUTO_INCREMENT NOT NULL, user_id INT DEFAULT NULL, done DATETIME DEFAULT NULL, INDEX IDX_BA388B7A76ED395 (user_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE cart_product (id INT AUTO_INCREMENT NOT NULL, price_id INT NOT NULL, cart_id INT NOT NULL, count INT NOT NULL, INDEX IDX_2890CCAAD614C7E7 (price_id), INDEX IDX_2890CCAA1AD5CDBF (cart_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE day_offer (id INT AUTO_INCREMENT NOT NULL, product_id INT DEFAULT NULL, text LONGTEXT DEFAULT NULL, picture VARCHAR(255) DEFAULT NULL, INDEX IDX_901B3BDA4584665A (product_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE day_offer (id INT AUTO_INCREMENT NOT NULL, product_id INT DEFAULT NULL, text LONGTEXT DEFAULT NULL, picture VARCHAR(255) DEFAULT NULL, until DATETIME NOT NULL, INDEX IDX_901B3BDA4584665A (product_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE delivery_price (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, description VARCHAR(255) NOT NULL, min_price INT NOT NULL, min_count INT NOT NULL, cost INT NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE feedback (id INT AUTO_INCREMENT NOT NULL, user_id INT DEFAULT NULL, product_id INT NOT NULL, created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, text LONGTEXT NOT NULL, mark INT DEFAULT NULL, date DATETIME NOT NULL, published_at DATETIME DEFAULT NULL, deleted_at DATETIME DEFAULT NULL, INDEX IDX_D2294458A76ED395 (user_id), INDEX IDX_D22944584584665A (product_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE passport (id INT AUTO_INCREMENT NOT NULL, user_id INT NOT NULL, name VARCHAR(255) DEFAULT NULL, patronymic VARCHAR(255) DEFAULT NULL, surname VARCHAR(255) DEFAULT NULL, number VARCHAR(255) DEFAULT NULL, given VARCHAR(255) DEFAULT NULL, date DATETIME DEFAULT NULL, code VARCHAR(255) DEFAULT NULL, INDEX IDX_B5A26E08A76ED395 (user_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
@@ -38,6 +38,7 @@ final class Version20230612185140 extends AbstractMigration
         $this->addSql('CREATE TABLE property (id INT AUTO_INCREMENT NOT NULL, unit_id INT NOT NULL, p_group_id INT NOT NULL, name VARCHAR(255) NOT NULL, INDEX IDX_8BF21CDEF8BD700D (unit_id), INDEX IDX_8BF21CDE235E6567 (p_group_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE property_group (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE section (id INT AUTO_INCREMENT NOT NULL, parent_id INT DEFAULT NULL, name VARCHAR(255) NOT NULL, icon VARCHAR(255) DEFAULT NULL, favorite TINYINT(1) DEFAULT NULL, INDEX IDX_2D737AEF727ACA70 (parent_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE section_group (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, icon VARCHAR(255) DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE show_history (id INT AUTO_INCREMENT NOT NULL, user_id INT NOT NULL, product_id INT NOT NULL, date DATETIME NOT NULL, INDEX IDX_40E85DA8A76ED395 (user_id), INDEX IDX_40E85DA84584665A (product_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE social (id INT AUTO_INCREMENT NOT NULL, picture VARCHAR(255) NOT NULL, description VARCHAR(255) NOT NULL, link VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE unit (id INT AUTO_INCREMENT NOT NULL, unit VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
@@ -61,7 +62,7 @@ final class Version20230612185140 extends AbstractMigration
         $this->addSql('ALTER TABLE product_property ADD CONSTRAINT FK_404276494584665A FOREIGN KEY (product_id) REFERENCES product (id)');
         $this->addSql('ALTER TABLE property ADD CONSTRAINT FK_8BF21CDEF8BD700D FOREIGN KEY (unit_id) REFERENCES unit (id)');
         $this->addSql('ALTER TABLE property ADD CONSTRAINT FK_8BF21CDE235E6567 FOREIGN KEY (p_group_id) REFERENCES property_group (id)');
-        $this->addSql('ALTER TABLE section ADD CONSTRAINT FK_2D737AEF727ACA70 FOREIGN KEY (parent_id) REFERENCES section (id)');
+        $this->addSql('ALTER TABLE section ADD CONSTRAINT FK_2D737AEF727ACA70 FOREIGN KEY (parent_id) REFERENCES section_group (id)');
         $this->addSql('ALTER TABLE show_history ADD CONSTRAINT FK_40E85DA8A76ED395 FOREIGN KEY (user_id) REFERENCES user (id)');
         $this->addSql('ALTER TABLE show_history ADD CONSTRAINT FK_40E85DA84584665A FOREIGN KEY (product_id) REFERENCES product (id)');
     }
@@ -109,6 +110,7 @@ final class Version20230612185140 extends AbstractMigration
         $this->addSql('DROP TABLE property');
         $this->addSql('DROP TABLE property_group');
         $this->addSql('DROP TABLE section');
+        $this->addSql('DROP TABLE section_group');
         $this->addSql('DROP TABLE show_history');
         $this->addSql('DROP TABLE social');
         $this->addSql('DROP TABLE unit');

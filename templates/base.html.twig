@@ -29,9 +29,9 @@
     <link rel="preload" href="{{ asset('fonts/Roboto/Roboto-Light_Italic.woff') }}" as="font">
     {% block stylesheets %}
         {{ encore_entry_link_tags('app') }}
-{#        <link rel="stylesheet" href="assets/css/fonts.css?v=98987060">#}
-{#        <link rel="stylesheet" href="assets/css/basic.css?v=98987060">#}
-{#        <link rel="stylesheet" href="assets/css/extra.css?v=98987060">#}
+        {# <link rel="stylesheet" href="assets/css/fonts.css?v=98987060"> #}
+        {# <link rel="stylesheet" href="assets/css/basic.css?v=98987060"> #}
+        {# <link rel="stylesheet" href="assets/css/extra.css?v=98987060"> #}
     {% endblock %}
     {% block javascripts %}
         {{ encore_entry_script_tags('app') }}
@@ -53,5 +53,13 @@ p.error-browser
 {% block body %}
 {% endblock %}
 {% include 'main/footer.html.twig' %}
+{% block javascript_end %}
+    <script src="{{ asset('assets/plg/jQuery/jquery-3.5.0.slim.min.js') }}"></script>
+    <script src="{{ asset('assets/plg/form/jquery.form.js') }}"></script>
+    <script src="{{ asset('assets/plg/form/jquery.maskedinput.min.js') }}"></script>
+    <script src="{{ asset('assets/plg/range/ion.rangeSlider.min.js') }}"></script>
+    <script src="{{ asset('assets/plg/Slider/slick.min.js') }}"></script>
+    <script src="{{ asset('assets/js/scripts.js') }}"></script>
+{% endblock %}
 </body>
 </html>

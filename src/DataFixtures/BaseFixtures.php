@@ -49,4 +49,19 @@ abstract class BaseFixtures extends Fixture
         }
         return $this->getReference($this->faker->randomElement($this->referencesIndex[$className]));
     }
+
+    protected function getAllReferences($className): array
+    {
+        if (!isset($this->referencesIndex[$className])) {
+            $this->referencesIndex[$className] = array_keys($this->referenceRepository->getReferencesByClass()[$className]);
+        }
+        if (empty($this->referencesIndex[$className])) {
+            throw new \Exception("Class's links aren't found: " . $className);
+        }
+        $result = [];
+        foreach ($this->referencesIndex[$className] as $index) {
+            $result[] = $this->getReference($index);
+        }
+        return $result;
+    }
 }

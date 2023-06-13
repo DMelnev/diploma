@@ -32,6 +32,11 @@ class DayOffer
      */
     private $picture;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $until;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -69,6 +74,18 @@ class DayOffer
     public function setPicture(?string $picture): self
     {
         $this->picture = $picture;
+
+        return $this;
+    }
+
+    public function getUntil(): ?\DateTimeInterface
+    {
+        return $this->until;
+    }
+
+    public function setUntil(\DateTimeInterface $until): self
+    {
+        $this->until = $until;
 
         return $this;
     }

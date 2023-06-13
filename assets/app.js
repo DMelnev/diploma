@@ -12,5 +12,10 @@ import './css/extra.css'
 import './styles/app.css';
 
 // start the Stimulus application
-import './bootstrap';
-
+// import './bootstrap';
+// import './plg/jQuery/jquery-3.5.0.slim.min'
+// import './plg/form/jquery.form'
+// import './plg/form/jquery.maskedinput.min'
+// import './plg/range/ion.rangeSlider.min'
+// import './plg/Slider/slick.min'
+// import './js/scripts'
