@@ -39,7 +39,7 @@ abstract class BaseFixtures extends Fixture
 
     private array $referencesIndex = [];
 
-    protected function getRandomReference($className): object
+    protected function getRandomReference(string $className): ?object
     {
         if (!isset($this->referencesIndex[$className])) {
             $this->referencesIndex[$className] = array_keys($this->referenceRepository->getReferencesByClass()[$className]);

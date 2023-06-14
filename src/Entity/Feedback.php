@@ -68,11 +68,6 @@ class Feedback
     private $mark;
 
     /**
-     * @ORM\Column(type="datetime")
-     */
-    private $date;
-
-    /**
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $publishedAt;
@@ -130,17 +125,6 @@ class Feedback
         return $this;
     }
 
-    public function getDate(): ?\DateTimeInterface
-    {
-        return $this->date;
-    }
-
-    public function setDate(\DateTimeInterface $date): self
-    {
-        $this->date = $date;
-
-        return $this;
-    }
 
     public function getPublishedAt(): ?\DateTimeInterface
     {
