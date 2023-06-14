@@ -15,7 +15,7 @@ class DeliveryPriceFixtures extends BaseFixtures
         $this->createMany(DeliveryPrice::class, 3, function (DeliveryPrice $price) {
             $price
                 ->setDescription($this->faker->realText(20))
-                ->setName($this->faker->lastName)
+                ->setName($this->faker->lastName())
                 ->setCost($this->faker->numberBetween(100, 1000))
                 ->setMinCount($this->faker->numberBetween(2, 5))
                 ->setMinPrice($this->faker->numberBetween(100, 1000));

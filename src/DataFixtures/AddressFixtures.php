@@ -15,7 +15,7 @@ class AddressFixtures extends BaseFixtures implements DependentFixtureInterface
     function loadData(ObjectManager $manager)
     {
         $this->createMany(Address::class, 10, function (Address $address) {
-            $array = explode(',', $this->faker->address);
+            $array = explode(',', $this->faker->address());
             $address
                 ->setUser($this->getRandomReference(User::class))
                 ->setPostCode(trim($array[0]))
@@ -23,7 +23,7 @@ class AddressFixtures extends BaseFixtures implements DependentFixtureInterface
                 ->setCity(trim($array[2]))
                 ->setStreet(trim($array[3]))
                 ->setHouse(trim($array[4]));
-            if ($this->faker->boolean) {
+            if ($this->faker->boolean()) {
                 $address->setFlat($this->faker->numberBetween(1, 999));
             }
         });

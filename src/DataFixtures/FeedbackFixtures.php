@@ -19,7 +19,7 @@ class FeedbackFixtures extends BaseFixtures implements DependentFixtureInterface
             $feedback
                 ->setUser($this->getRandomReference(User::class))
                 ->setProduct($this->getRandomReference(Product::class))
-                ->setText($this->faker->realText)
+                ->setText($this->faker->realText())
                 ->setMark($this->faker->numberBetween(0, 5));
             if ($this->faker->boolean(80)) {
                 $feedback->setPublishedAt($this->faker->dateTimeBetween('-10 days'));

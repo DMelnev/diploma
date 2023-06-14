@@ -16,7 +16,7 @@ class PhoneFixtures extends BaseFixtures implements DependentFixtureInterface
     {
         $this->createMany(Phone::class, 30, function (Phone $phone) {
             $phone
-                ->setNumber($this->faker->phoneNumber)
+                ->setNumber($this->faker->phoneNumber())
                 ->setUser($this->getRandomReference(User::class));
         });
         $this->manager->flush();
