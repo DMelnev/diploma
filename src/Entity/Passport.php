@@ -111,12 +111,12 @@ class Passport
         return $this;
     }
 
-    public function getGiven(): ?\DateTimeInterface
+    public function getGiven(): ?string
     {
         return $this->given;
     }
 
-    public function setGiven(?\DateTimeInterface $given): self
+    public function setGiven(?string $given): self
     {
         $this->given = $given;
 
