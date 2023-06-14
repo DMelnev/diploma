@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block body %}
+
+    <div class="Middle Middle_top">
+        <div class="Middle-top">
+            <div class="wrap">
+                <div class="Middle-header">
+                    <h1 class="Middle-title">Авторизация</h1>
+                    <ul class="breadcrumbs Middle-breadcrumbs">
+                        <li class="breadcrumbs-item"><a href="{{ url('app_main') }}">Главная</a></li>
+                        <li class="breadcrumbs-item breadcrumbs-item_current"><span>Авторизация</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="Section">
+            <div class="wrap">
+                {% if error %}
+                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
+                <form class="form Authorization" method="post">
+                    <div class="row">
+                        <div class="row-block">
+                            <div class="form-group">
+                                <label class="form-label" for="email">E-mail</label>
+                                <input class="form-input" id="email" name="email" type="email" placeholder="e-mail" value="{{ last_username }}" autocomplete="email" required autofocus>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="password">Пароль</label>
+                                <input class="form-input" id="password" name="password" type="password" placeholder="Ваш пароль" autocomplete="current-password" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                                <button class="btn btn_primary" type="submit">Войти</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -49,7 +49,10 @@ p.error-browser
         | браузера здесь&nbsp;
     | для правильного отображения сайта.
 -->
-{% include 'main/header.html.twig' %}
+{% if slider is not defined %}
+    {% set slider = false %}
+{% endif %}
+{% include 'main/header.html.twig' with {'slider': slider} %}
 {% block body %}
 {% endblock %}
 {% include 'main/footer.html.twig' %}
