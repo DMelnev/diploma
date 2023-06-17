@@ -14,15 +14,15 @@ class SocialFixtures extends BaseFixtures
     {
         $array = [
             'facebook' => [
-                'link' => 'fb.com',
+                'link' => 'https://fb.com',
                 'picture' => 'fb.svg'
             ],
             'twitter' => [
-                'link' => 'twitter.com',
+                'link' => 'https://twitter.com',
                 'picture' => 'tw.svg'
             ],
             'linkedin' => [
-                'link' => 'linkedin.com',
+                'link' => 'https://linkedin.com',
                 'picture' => 'in.svg'
             ],
         ];

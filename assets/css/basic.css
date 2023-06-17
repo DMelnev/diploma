@@ -898,7 +898,7 @@ select + select {
   bottom: 1px;
   border-radius: 0 3px 3px 0;
   width: 40px;
-  background: #f9fafc url("../../public/img/icons/arrowMuted.svg") center center no-repeat;
+  background: #f9fafc url("../img/icons/arrowMuted.svg") center center no-repeat;
 }
 .form .form-btn {
   margin-top: 20px;
@@ -935,7 +935,7 @@ select + select {
 }
 .selectList-icon {
   display: block;
-  background: url("../../public/img/icons/arrowMuted.svg") 0 0 no-repeat;
+  background: url("../img/icons/arrowMuted.svg") 0 0 no-repeat;
   width: 12px;
   height: 8px;
   margin-left: 15px;
