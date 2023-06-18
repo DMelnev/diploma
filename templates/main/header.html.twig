@@ -11,7 +11,7 @@
                                 {% for item in  social %}
                                     <li class="menu-item">
                                         <a class="menu-link" href="{{ item.link }}">
-                                            <img src="{{ asset('img/icons/socialHeader/' ~ item.picture) }}"
+                                            <img src="{{ absolute_url('assets/img/icons/socialHeader/'~ item.picture) }}"
                                                  alt="{{ item.description }}"/></a>
                                     </li>
                                 {% endfor %}
@@ -39,7 +39,7 @@
     <div class="wrap">
         <div class="row Header-rowMain">
             <div class="row-block Header-logo"><a class="logo" href="{{ url('app_main') }}"><img class="logo-image"
-                                                                                                 src="{{ asset('img/logo.png') }}"
+                                                                                                 src="{{ asset(source('@images/logo.png')) }}"
                                                                                                  alt="logo.png"/></a>
             </div>
             <nav class="row-block row-block_right Header-menu">

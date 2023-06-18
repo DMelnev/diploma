@@ -8,15 +8,13 @@
                     laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad
                 </p>
                 <ul class="menu menu_img menu_smallImg Footer-menuSoc">
-                    <li class="menu-item"><a class="menu-link" href="#"><img
-                                    src="{{ asset(source('@images/icons/socialFooter/fb.svg')) }}"
-                                    alt="fb.svg"/></a></li>
-                    <li class="menu-item"><a class="menu-link" href="#"><img
-                                    src="{{ asset(source('@images/icons/socialFooter/tw.svg')) }}"
-                                    alt="tw.svg"/></a></li>
-                    <li class="menu-item"><a class="menu-link" href="#"><img
-                                    src="{{ asset(source('@images/icons/socialFooter/in.svg')) }}"
-                                    alt="in.svg"/></a></li>
+                    {% for item in  social %}
+                        <li class="menu-item">
+                            <a class="menu-link" href="{{ item.link }}">
+                                <img src="{{ absolute_url('assets/img/icons/socialFooter/'~ item.picture) }}"
+                                     alt="{{ item.description }}"/></a>
+                        </li>
+                    {% endfor %}
                 </ul>
             </div>
             <div class="row-block">

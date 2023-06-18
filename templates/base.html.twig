@@ -55,7 +55,7 @@ p.error-browser
 {% include 'main/header.html.twig' with {'slider': slider} %}
 {% block body %}
 {% endblock %}
-{% include 'main/footer.html.twig' %}
+{% include 'main/footer.html.twig' with {'slider': slider} %}
 {% block javascript_end %}
     <script src="{{ asset('assets/plg/jQuery/jquery-3.5.0.slim.min.js') }}"></script>
     <script src="{{ asset('assets/plg/form/jquery.form.js') }}"></script>
