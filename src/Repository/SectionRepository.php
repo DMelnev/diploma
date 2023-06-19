@@ -39,6 +39,27 @@ class SectionRepository extends ServiceEntityRepository
         }
     }
 
+    public function getArray(): array
+    {
+        $result = $this->createQueryBuilder('s')
+            ->andWhere('s.id > 0')
+            ->leftJoin('s.parent', 'g')
+            ->addSelect('g')
+            ->getQuery()
+            ->getResult();
+        $list = [];
+        /** @var Section $item */
+        foreach ($result as $item) {
+            if ($item->getParent() == null) {
+                $list[$item->getName()] = $item;
+            } else {
+                $list[$item->getParent()->getName()][0] = $item->getParent();
+                $list[$item->getParent()->getName()][] = $item;
+            }
+        }
+        return $list;
+    }
+
 //    /**
 //     * @return Section[] Returns an array of Section objects
 //     */

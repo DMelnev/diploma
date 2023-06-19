@@ -25,6 +25,11 @@ class Banner
     /**
      * @ORM\Column(type="string", length=255)
      */
+    private $title;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
     private $description;
 
     /**
@@ -35,7 +40,7 @@ class Banner
     /**
      * @ORM\Column(type="datetime")
      */
-    private $sxpiriedAt;
+    private $expiredAt;
 
     public function getId(): ?int
     {
@@ -78,15 +83,32 @@ class Banner
         return $this;
     }
 
-    public function getSxpiriedAt(): ?\DateTimeInterface
+    public function getExpiredAt(): ?\DateTimeInterface
     {
-        return $this->sxpiriedAt;
+        return $this->expiredAt;
     }
 
-    public function setSxpiriedAt(\DateTimeInterface $sxpiriedAt): self
+    public function setExpiredAt(\DateTimeInterface $expiredAt): self
     {
-        $this->sxpiriedAt = $sxpiriedAt;
+        $this->expiredAt = $expiredAt;
 
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param mixed $title
+     */
+    public function setTitle($title): self
+    {
+        $this->title = $title;
         return $this;
     }
 }

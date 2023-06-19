@@ -39,6 +39,21 @@ class BannerRepository extends ServiceEntityRepository
         }
     }
 
+    public function getRandom(int $count)
+    {
+        $now = new \DateTime();
+        $request = $this->createQueryBuilder('b')
+            ->andWhere('b.expiredAt > :now')
+            ->setParameter('now', $now)
+            ->getQuery()
+            ->getResult();
+        if (count($request) > $count) {
+            shuffle($request);
+            return array_slice($request, 0, $count);
+        }
+        return $request;
+    }
+
 //    /**
 //     * @return Banner[] Returns an array of Banner objects
 //     */

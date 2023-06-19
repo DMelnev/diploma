@@ -29,7 +29,7 @@ class Mailer
      * @param string $text
      * @param string $htmlTemplate
      * @param Closure|null $callback
-     * @throws TransportExceptionInterface
+     * @return bool
      */
     private function send($user, string $subject, string $text, string $htmlTemplate, \Closure $callback = null): bool
     {
@@ -56,14 +56,11 @@ class Mailer
         } catch (TransportExceptionInterface $exception) {
             return false;
         }
-
-
     }
 
     /**
      * @param User $user
      * @return bool
-     * @throws TransportExceptionInterface
      */
     public function sendWelcome(User $user): bool
     {

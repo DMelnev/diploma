@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\Model\UserRegistrationFormModel;
 use App\Form\UserRegistrationFormType;
+use App\Repository\SectionRepository;
 use App\Repository\SocialRepository;
 use App\Security\LoginFormAuthenticator;
 use App\Service\Mailer;
@@ -20,13 +21,14 @@ use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 class SecurityController extends AbstractController
 {
     private SocialRepository $socialRepository;
+    private SectionRepository $sectionRepository;
 
-    /**
-     * SecurityController constructor.
-     */
-    public function __construct(SocialRepository $socialRepository)
+    public function __construct(
+        SocialRepository $socialRepository,
+        SectionRepository $sectionRepository)
     {
         $this->socialRepository = $socialRepository;
+        $this->sectionRepository = $sectionRepository;
     }
 
     /**
@@ -38,6 +40,7 @@ class SecurityController extends AbstractController
             'last_username' => $authenticationUtils->getLastUsername(),
             'error' => $authenticationUtils->getLastAuthenticationError(),
             'social' => $this->socialRepository->findAll(),
+            'categories' => $this->sectionRepository->getArray(),
         ]);
     }
 
@@ -85,14 +88,15 @@ class SecurityController extends AbstractController
                     $authenticator,
                     $request
                 );
-            } else {
-//                $this->addFlash('flash_error', 'Почтовый сервер говорит, что такого E-mail не существует!');
+//            } else {
+////                $this->addFlash('flash_error', 'Почтовый сервер говорит, что такого E-mail не существует!');
             }
         }
 
         return $this->renderForm('security/sign_up.html.twig', [
             "registrationForm" => $form,
             'social' => $this->socialRepository->findAll(),
+            'categories' => $this->sectionRepository->getArray(),
         ]);
 
     }

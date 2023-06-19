@@ -1,0 +1,25 @@
+<div class="Section-column">
+    <div class="Section-columnSection">
+        <header class="Section-header">
+            <strong class="Section-title">Навигация</strong>
+        </header>
+        <div class="Section-columnContent">
+            <div class="NavigateProfile">
+                <ul class="menu menu_vt">
+                    <li class="{% if app.request.get('_route') == "app_user_account" %}menu-item_ACTIVE {% endif %}menu-item">
+                        <a class="menu-link" href="{{ url('app_user_account') }}">Личный кабинет</a>
+                    </li>
+                    <li class="{% if app.request.get('_route') == "app_user_profile" %}menu-item_ACTIVE {% endif %}menu-item">
+                        <a class="menu-link" href="{{ url('app_user_profile') }}">Профиль</a>
+                    </li>
+                    <li class="{% if app.request.get('_route') == "app_user_order_history" %}menu-item_ACTIVE {% endif %}menu-item">
+                        <a class="menu-link" href="{{ url('app_user_order_history') }}">История заказов</a>
+                    </li>
+                    <li class="{% if app.request.get('_route') == "app_user_view_history" %}menu-item_ACTIVE {% endif %}menu-item">
+                        <a class="menu-link" href="{{ url('app_user_view_history') }}">История просмотра</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
