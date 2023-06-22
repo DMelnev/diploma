@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\DeliveryPriceRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -41,6 +43,16 @@ class DeliveryPrice
      * @ORM\Column(type="integer")
      */
     private $cost;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Cart::class, mappedBy="deliveryBy")
+     */
+    private $carts;
+
+    public function __construct()
+    {
+        $this->carts = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -103,6 +115,36 @@ class DeliveryPrice
     public function setCost(int $cost): self
     {
         $this->cost = $cost;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Cart>
+     */
+    public function getCarts(): Collection
+    {
+        return $this->carts;
+    }
+
+    public function addCart(Cart $cart): self
+    {
+        if (!$this->carts->contains($cart)) {
+            $this->carts[] = $cart;
+            $cart->setDeliveryBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCart(Cart $cart): self
+    {
+        if ($this->carts->removeElement($cart)) {
+            // set the owning side to null (unless already changed)
+            if ($cart->getDeliveryBy() === $this) {
+                $cart->setDeliveryBy(null);
+            }
+        }
 
         return $this;
     }

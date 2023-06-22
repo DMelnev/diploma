@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Repository\BannerRepository;
-use App\Repository\SectionGroupRepository;
 use App\Repository\SectionRepository;
 use App\Repository\SocialRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

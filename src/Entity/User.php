@@ -121,6 +121,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $carts;
 
+    /**
+     * @ORM\OneToMany(targetEntity=CartProduct::class, mappedBy="seller")
+     */
+    private $cartProducts;
+
     public function __construct()
     {
         $this->passports = new ArrayCollection();
@@ -130,6 +135,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->showHistories = new ArrayCollection();
         $this->prices = new ArrayCollection();
         $this->carts = new ArrayCollection();
+        $this->cartProducts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -473,6 +479,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($cart->getUser() === $this) {
                 $cart->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CartProduct>
+     */
+    public function getCartProducts(): Collection
+    {
+        return $this->cartProducts;
+    }
+
+    public function addCartProduct(CartProduct $cartProduct): self
+    {
+        if (!$this->cartProducts->contains($cartProduct)) {
+            $this->cartProducts[] = $cartProduct;
+            $cartProduct->setSeller($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCartProduct(CartProduct $cartProduct): self
+    {
+        if ($this->cartProducts->removeElement($cartProduct)) {
+            // set the owning side to null (unless already changed)
+            if ($cartProduct->getSeller() === $this) {
+                $cartProduct->setSeller(null);
             }
         }
 

@@ -26,13 +26,15 @@ class paySystemFixtures extends BaseFixtures
                 'picture' => 'random.png'
             ],
         ];
+        $i = 0;
         foreach ($array as $name => $item) {
-            $this->create(PaySystem::class, function (PaySystem $paySystem) use ($name, $item) {
+            $entity = $this->create(PaySystem::class, function (PaySystem $paySystem) use ($name, $item) {
                 $paySystem
                     ->setDescription($name)
                     ->setPicture($item['picture'])
                     ->setLink($item['link']);
             });
+            $this->addReference(PaySystem::class . '|' . $i++, $entity);
         }
         $this->manager->flush();
     }

@@ -34,6 +34,11 @@ class CartProduct
      */
     private $count;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="cartProducts")
+     */
+    private $seller;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -71,6 +76,18 @@ class CartProduct
     public function setCount(int $count): self
     {
         $this->count = $count;
+
+        return $this;
+    }
+
+    public function getSeller(): ?User
+    {
+        return $this->seller;
+    }
+
+    public function setSeller(?User $seller): self
+    {
+        $this->seller = $seller;
 
         return $this;
     }

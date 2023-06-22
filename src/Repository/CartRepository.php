@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Cart;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -38,6 +39,59 @@ class CartRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+    public function getLast(User $user)
+    {
+        $result = $this->createQueryBuilder('c')
+            ->orderBy('c.id','DESC')
+            ->leftJoin('c.cartProducts', 'products')
+            ->addSelect('products')
+            ->leftJoin('products.price', 'price')
+            ->addSelect('price')
+            ->leftJoin('c.deliveryBy', 'delivery')
+            ->addSelect('delivery')
+            ->leftJoin('c.payBy', 'pay')
+            ->addSelect('pay')
+            ->andWhere('c.user = :user')
+            ->setParameter('user', $user)
+            ->select('
+            c.id, c.createdAt, 
+            SUM(price.price) AS sum, 
+            delivery.name AS delivery_by, 
+            pay.description AS pay_by,
+            c.status')
+            ->groupBy('c')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getResult();
+        return key_exists(0, $result) ? $result[0] : null;
+    }
+
+    public function getAll(User $user)
+    {
+        return $this->createQueryBuilder('c')
+            ->orderBy('c.id','DESC')
+            ->leftJoin('c.cartProducts', 'products')
+            ->addSelect('products')
+            ->leftJoin('products.price', 'price')
+            ->addSelect('price')
+            ->leftJoin('c.deliveryBy', 'delivery')
+            ->addSelect('delivery')
+            ->leftJoin('c.payBy', 'pay')
+            ->addSelect('pay')
+            ->andWhere('c.user = :user')
+            ->setParameter('user', $user)
+            ->select('
+            c.id, c.createdAt, 
+            SUM(price.price) AS sum, 
+            delivery.name AS delivery_by, 
+            pay.description AS pay_by,
+            c.status')
+            ->groupBy('c')
+            ->getQuery()
+            ->getResult();
+    }
+
 
 //    /**
 //     * @return Cart[] Returns an array of Cart objects

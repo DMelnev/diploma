@@ -5,13 +5,39 @@ namespace App\Entity;
 use App\Repository\CartRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=CartRepository::class)
  */
 class Cart
 {
+    use TimestampableEntity;
+
+    /**
+     * @var \DateTime
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(type="datetime")
+     * @Assert\DisableAutoMapping()
+     */
+    #[Gedmo\Timestampable(on: 'create')]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    protected $createdAt;
+
+    /**
+     * @var \DateTime
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(type="datetime")
+     * @Assert\DisableAutoMapping()
+     */
+    #[Gedmo\Timestampable(on: 'update')]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    protected $updatedAt;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -33,6 +59,21 @@ class Cart
      * @ORM\OneToMany(targetEntity=CartProduct::class, mappedBy="cart", orphanRemoval=true)
      */
     private $cartProducts;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $status;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=PaySystem::class, inversedBy="carts")
+     */
+    private $payBy;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=DeliveryPrice::class, inversedBy="carts")
+     */
+    private $deliveryBy;
 
     public function __construct()
     {
@@ -94,6 +135,42 @@ class Cart
                 $cartProduct->setCart(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?string $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function getPayBy(): ?PaySystem
+    {
+        return $this->payBy;
+    }
+
+    public function setPayBy(?PaySystem $payBy): self
+    {
+        $this->payBy = $payBy;
+
+        return $this;
+    }
+
+    public function getDeliveryBy(): ?DeliveryPrice
+    {
+        return $this->deliveryBy;
+    }
+
+    public function setDeliveryBy(?DeliveryPrice $deliveryBy): self
+    {
+        $this->deliveryBy = $deliveryBy;
 
         return $this;
     }

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\PaySystemRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -31,6 +33,16 @@ class PaySystem
      * @ORM\Column(type="string", length=255)
      */
     private $link;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Cart::class, mappedBy="payBy")
+     */
+    private $carts;
+
+    public function __construct()
+    {
+        $this->carts = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -69,6 +81,36 @@ class PaySystem
     public function setLink(string $link): self
     {
         $this->link = $link;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Cart>
+     */
+    public function getCarts(): Collection
+    {
+        return $this->carts;
+    }
+
+    public function addCart(Cart $cart): self
+    {
+        if (!$this->carts->contains($cart)) {
+            $this->carts[] = $cart;
+            $cart->setPayBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCart(Cart $cart): self
+    {
+        if ($this->carts->removeElement($cart)) {
+            // set the owning side to null (unless already changed)
+            if ($cart->getPayBy() === $this) {
+                $cart->setPayBy(null);
+            }
+        }
 
         return $this;
     }

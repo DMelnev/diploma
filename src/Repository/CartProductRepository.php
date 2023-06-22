@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Cart;
 use App\Entity\CartProduct;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -37,6 +38,23 @@ class CartProductRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function getSum(Cart $cart)
+    {
+        $result = $this->createQueryBuilder('p')
+            ->andWhere('p.cart = :cart')
+            ->setParameter('cart', $cart)
+            ->leftJoin('p.price', 'price')
+            ->addSelect('price')
+            ->select('SUM(price.price)')
+            ->getQuery()
+            ->getResult();
+//        dd($result);
+        return (array_key_exists(0, $result) && array_key_exists(1, $result[0]))
+            ? $result[0][1]
+            : 0;
+
     }
 
 //    /**

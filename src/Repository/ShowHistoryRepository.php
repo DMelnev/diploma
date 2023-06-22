@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\ShowHistory;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -37,6 +38,20 @@ class ShowHistoryRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function getLast(User $user, int $count = 3)
+    {
+        return $this->createQueryBuilder('shows')
+            ->orderBy('shows.id', 'DESC')
+            ->andWhere('shows.user = :user')
+            ->setParameter('user', $user)
+            ->leftJoin('shows.product', 'product')
+            ->addSelect('product')
+            ->setMaxResults(':count')
+            ->setParameter('count', $count)
+            ->getQuery()
+            ->getResult();
     }
 
 //    /**
