@@ -42,40 +42,35 @@ class ShowHistoryRepository extends ServiceEntityRepository
 
     public function getLast(User $user, int $count = 3)
     {
-        return $this->createQueryBuilder('shows')
-            ->orderBy('shows.id', 'DESC')
-            ->andWhere('shows.user = :user')
+        return $this->createQueryBuilder('s')
+            ->distinct()
+            ->leftJoin('s.product', 'p')
+            ->addSelect('p')
+            ->leftJoin('p.prices', 'pr')
+            ->addSelect('pr')
+            ->leftJoin('p.productPictures', 'pp')
+            ->addSelect('pp')
+            ->leftJoin('p.action', 'ac')
+            ->addSelect('ac')
+            ->leftJoin('p.section', 'sn')
+            ->addSelect('sn')
+            ->leftJoin('sn.parent', 'sng')
+            ->select("
+            s.id AS sh,
+            p.name,
+            p.id,
+            pp.link AS link,
+            pr.price AS price,
+            ac.discount AS discount,
+            sn.name AS section,
+            sng.name AS group
+            ")
+            ->andWhere('s.user = :user')
             ->setParameter('user', $user)
-            ->leftJoin('shows.product', 'product')
-            ->addSelect('product')
-            ->setMaxResults(':count')
-            ->setParameter('count', $count)
+            ->orderBy('p.id', 'DESC')
+            ->setMaxResults($count)
             ->getQuery()
             ->getResult();
     }
 
-//    /**
-//     * @return ShowHistory[] Returns an array of ShowHistory objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('s.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?ShowHistory
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }

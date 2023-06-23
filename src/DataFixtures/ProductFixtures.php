@@ -26,7 +26,7 @@ class ProductFixtures extends BaseFixtures implements DependentFixtureInterface
                 ->setLimited($this->faker->boolean(10))
                 ->setUnit($this->getRandomReference(Unit::class))
                 ->setSection($this->getRandomReference(Section::class));
-            if ($this->faker->boolean(20)) {
+            if ($this->faker->boolean(70)) {
                 $product->setAction($this->getRandomReference(Action::class));
             }
         });

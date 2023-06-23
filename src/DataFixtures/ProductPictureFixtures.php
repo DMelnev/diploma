@@ -22,7 +22,7 @@ class ProductPictureFixtures extends BaseFixtures implements DependentFixtureInt
                         ->setProduct($product)
                         ->setLink('card.jpg');
                 });
-            } while ($this->faker->boolean(30));
+            } while ($this->faker->boolean(70));
         }
         $this->manager->flush();
     }

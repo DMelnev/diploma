@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Repository\CartProductRepository;
 use App\Repository\CartRepository;
 use App\Repository\SectionRepository;
 use App\Repository\ShowHistoryRepository;
@@ -45,11 +44,10 @@ class UserController extends AbstractController
         /** @var User $user */
         $user = $this->getUser();
         return $this->render('user/account.html.twig', [
-            'controller_name' => 'UserController',
             'social' => $this->socialRepository->findAll(),
             'categories' => $this->sectionRepository->getArray(),
             'cart' => $this->cartRepository->getLast($user),
-            'history' => $this->showHistoryRepository->getLast($user)
+            'history' => $this->showHistoryRepository->getLast($user),
         ]);
     }
 
@@ -59,7 +57,6 @@ class UserController extends AbstractController
     public function profile(): Response
     {
         return $this->render('user/profile.html.twig', [
-            'controller_name' => 'UserController',
             'social' => $this->socialRepository->findAll(),
             'categories' => $this->sectionRepository->getArray(),
         ]);
@@ -70,11 +67,12 @@ class UserController extends AbstractController
      */
     public function viewHistory(): Response
     {
+        /** @var User $user */
+        $user = $this->getUser();
         return $this->render('user/historyView.html.twig', [
-            'controller_name' => 'UserController',
             'social' => $this->socialRepository->findAll(),
             'categories' => $this->sectionRepository->getArray(),
-            'history' => $this->showHistoryRepository->getLast($this->getUser(), 20),
+            'history' => $this->showHistoryRepository->getLast($user, 20),
         ]);
     }
 
@@ -83,11 +81,12 @@ class UserController extends AbstractController
      */
     public function orderHistory(): Response
     {
+        /** @var User $user */
+        $user = $this->getUser();
         return $this->render('user/historyOrder.html.twig', [
-            'controller_name' => 'UserController',
             'social' => $this->socialRepository->findAll(),
             'categories' => $this->sectionRepository->getArray(),
-            'orders' => $this->cartRepository->getAll($this->getUser()),
+            'orders' => $this->cartRepository->getAll($user),
         ]);
     }
 }
