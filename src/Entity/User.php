@@ -77,11 +77,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $passports;
 
     /**
-     * @ORM\OneToMany(targetEntity=Phone::class, mappedBy="user", orphanRemoval=true)
-     */
-    private $phones;
-
-    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $avatar;
@@ -126,10 +121,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $cartProducts;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $phone;
+
     public function __construct()
     {
         $this->passports = new ArrayCollection();
-        $this->phones = new ArrayCollection();
         $this->addresses = new ArrayCollection();
         $this->feedback = new ArrayCollection();
         $this->showHistories = new ArrayCollection();
@@ -263,36 +262,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($passport->getUser() === $this) {
                 $passport->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Phone>
-     */
-    public function getPhones(): Collection
-    {
-        return $this->phones;
-    }
-
-    public function addPhone(Phone $phone): self
-    {
-        if (!$this->phones->contains($phone)) {
-            $this->phones[] = $phone;
-            $phone->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removePhone(Phone $phone): self
-    {
-        if ($this->phones->removeElement($phone)) {
-            // set the owning side to null (unless already changed)
-            if ($phone->getUser() === $this) {
-                $phone->setUser(null);
             }
         }
 
@@ -511,6 +480,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $cartProduct->setSeller(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(?string $phone): self
+    {
+        $this->phone = $phone;
 
         return $this;
     }

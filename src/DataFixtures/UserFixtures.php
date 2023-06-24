@@ -40,6 +40,9 @@ class UserFixtures extends BaseFixtures
             if ($this->faker->boolean(70)) {
                 $user->setConfirmedAt($this->faker->dateTimeBetween('-1 week'));
             }
+            if ($this->faker->boolean(70)) {
+                $user->setPhone($this->faker->phoneNumber());
+            }
         });
         $this->manager->flush();
     }

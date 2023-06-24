@@ -1,0 +1,52 @@
+{% for product in products %}
+    {% if slider is defined %}
+        <div class="Slider-item">
+        <div class="Slider-content">
+    {% endif %}
+    <div class="Card">
+        <a class="Card-picture" href="#">
+            <img src="{{ asset('img/content/home/'~product.link) }}"
+                 alt="{{ product.link }}"/>
+        </a>
+        <div class="Card-content">
+            <strong class="Card-title">
+                <a href="#">{{ product.name }}</a>
+            </strong>
+            <div class="Card-description">
+                <div class="Card-cost">
+                    {% if product.discount is not null %}
+                        <span class="Card-priceOld">{{ product.price|end_cost }}</span>
+                        <span class="Card-price">{{ (product.price - product.price*product.discount/100)|end_cost }}</span>
+                    {% else %}
+                        <span class="Card-price">{{ product.price|end_cost }}</span>
+                    {% endif %}
+                </div>
+                <div class="Card-category">
+                    {% if product.group is not null %}{{ product.group }} / {% endif %}{{ product.section }}
+                </div>
+                <div class="Card-hover">
+                    <a class="Card-btn" href="#">
+                        <img src="{{ asset('assets/img/icons/card/bookmark.svg') }}"
+                             alt="bookmark.svg"/>
+                    </a>
+                    <a class="Card-btn" href="#">
+                        <img src="{{ asset('assets/img/icons/card/cart.svg') }}"
+                             alt="cart.svg"/>
+                    </a>
+                    <a class="Card-btn" href="#">
+                        <img src="{{ asset('assets/img/icons/card/change.svg') }}"
+                             alt="change.svg"/>
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% if product.discount is not null %}
+            <div class="Card-sale">-{{ product.discount }}%</div>
+        {% endif %}
+    </div>
+    {% if slider is defined %}
+        </div></div>
+    {% endif %}
+{% else %}
+    Записей не найдено
+{% endfor %}

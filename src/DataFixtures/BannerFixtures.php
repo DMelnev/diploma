@@ -16,7 +16,7 @@ class BannerFixtures extends BaseFixtures
             $banner
                 ->setLink('/')
                 ->setPicture('slider.png')
-                ->setDescription($this->faker->realText(50))
+                ->setDescription($this->faker->realText(25))
                 ->setTitle($this->faker->realText(12))
                 ->setExpiredAt($this->faker->dateTimeBetween('now', '+1 month'));
         });

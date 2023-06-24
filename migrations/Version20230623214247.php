@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20230613194052 extends AbstractMigration
+final class Version20230623214247 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -22,12 +22,12 @@ final class Version20230613194052 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE TABLE action (id INT AUTO_INCREMENT NOT NULL, text LONGTEXT NOT NULL, picture VARCHAR(255) NOT NULL, until DATETIME NOT NULL, discount INT NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE address (id INT AUTO_INCREMENT NOT NULL, user_id INT NOT NULL, post_code VARCHAR(255) DEFAULT NULL, city VARCHAR(255) DEFAULT NULL, region VARCHAR(255) DEFAULT NULL, district VARCHAR(255) DEFAULT NULL, street VARCHAR(255) DEFAULT NULL, house VARCHAR(255) DEFAULT NULL, flat VARCHAR(255) DEFAULT NULL, INDEX IDX_D4E6F81A76ED395 (user_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE banner (id INT AUTO_INCREMENT NOT NULL, picture VARCHAR(255) NOT NULL, description VARCHAR(255) NOT NULL, link VARCHAR(255) NOT NULL, sxpiried_at DATETIME NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE cart (id INT AUTO_INCREMENT NOT NULL, user_id INT DEFAULT NULL, done DATETIME DEFAULT NULL, INDEX IDX_BA388B7A76ED395 (user_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE cart_product (id INT AUTO_INCREMENT NOT NULL, price_id INT NOT NULL, cart_id INT NOT NULL, count INT NOT NULL, INDEX IDX_2890CCAAD614C7E7 (price_id), INDEX IDX_2890CCAA1AD5CDBF (cart_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE banner (id INT AUTO_INCREMENT NOT NULL, picture VARCHAR(255) NOT NULL, title VARCHAR(255) NOT NULL, description VARCHAR(255) NOT NULL, link VARCHAR(255) NOT NULL, expired_at DATETIME NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE cart (id INT AUTO_INCREMENT NOT NULL, user_id INT DEFAULT NULL, pay_by_id INT DEFAULT NULL, delivery_by_id INT DEFAULT NULL, created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, done DATETIME DEFAULT NULL, status VARCHAR(255) DEFAULT NULL, INDEX IDX_BA388B7A76ED395 (user_id), INDEX IDX_BA388B7E2068F9D (pay_by_id), INDEX IDX_BA388B7BAECC696 (delivery_by_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE cart_product (id INT AUTO_INCREMENT NOT NULL, price_id INT NOT NULL, cart_id INT NOT NULL, seller_id INT DEFAULT NULL, count INT NOT NULL, INDEX IDX_2890CCAAD614C7E7 (price_id), INDEX IDX_2890CCAA1AD5CDBF (cart_id), INDEX IDX_2890CCAA8DE820D9 (seller_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE day_offer (id INT AUTO_INCREMENT NOT NULL, product_id INT DEFAULT NULL, text LONGTEXT DEFAULT NULL, picture VARCHAR(255) DEFAULT NULL, until DATETIME NOT NULL, INDEX IDX_901B3BDA4584665A (product_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE delivery_price (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, description VARCHAR(255) NOT NULL, min_price INT NOT NULL, min_count INT NOT NULL, cost INT NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE feedback (id INT AUTO_INCREMENT NOT NULL, user_id INT DEFAULT NULL, product_id INT NOT NULL, created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, text LONGTEXT NOT NULL, mark INT DEFAULT NULL, date DATETIME NOT NULL, published_at DATETIME DEFAULT NULL, deleted_at DATETIME DEFAULT NULL, INDEX IDX_D2294458A76ED395 (user_id), INDEX IDX_D22944584584665A (product_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE feedback (id INT AUTO_INCREMENT NOT NULL, user_id INT DEFAULT NULL, product_id INT NOT NULL, created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, text LONGTEXT NOT NULL, mark INT DEFAULT NULL, published_at DATETIME DEFAULT NULL, deleted_at DATETIME DEFAULT NULL, INDEX IDX_D2294458A76ED395 (user_id), INDEX IDX_D22944584584665A (product_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE passport (id INT AUTO_INCREMENT NOT NULL, user_id INT NOT NULL, name VARCHAR(255) DEFAULT NULL, patronymic VARCHAR(255) DEFAULT NULL, surname VARCHAR(255) DEFAULT NULL, number VARCHAR(255) DEFAULT NULL, given VARCHAR(255) DEFAULT NULL, date DATETIME DEFAULT NULL, code VARCHAR(255) DEFAULT NULL, INDEX IDX_B5A26E08A76ED395 (user_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE pay_system (id INT AUTO_INCREMENT NOT NULL, picture VARCHAR(255) NOT NULL, description VARCHAR(255) NOT NULL, link VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE phone (id INT AUTO_INCREMENT NOT NULL, user_id INT NOT NULL, number VARCHAR(255) NOT NULL, INDEX IDX_444F97DDA76ED395 (user_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
@@ -42,11 +42,14 @@ final class Version20230613194052 extends AbstractMigration
         $this->addSql('CREATE TABLE show_history (id INT AUTO_INCREMENT NOT NULL, user_id INT NOT NULL, product_id INT NOT NULL, date DATETIME NOT NULL, INDEX IDX_40E85DA8A76ED395 (user_id), INDEX IDX_40E85DA84584665A (product_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE social (id INT AUTO_INCREMENT NOT NULL, picture VARCHAR(255) NOT NULL, description VARCHAR(255) NOT NULL, link VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE unit (id INT AUTO_INCREMENT NOT NULL, unit VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE user (id INT AUTO_INCREMENT NOT NULL, created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, email VARCHAR(180) NOT NULL, roles JSON NOT NULL, password VARCHAR(255) NOT NULL, name VARCHAR(255) NOT NULL, avatar VARCHAR(255) DEFAULT NULL, confirmed_at DATETIME DEFAULT NULL, activation_code VARCHAR(255) DEFAULT NULL, deleted_at DATETIME DEFAULT NULL, UNIQUE INDEX UNIQ_8D93D649E7927C74 (email), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE user (id INT AUTO_INCREMENT NOT NULL, created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, email VARCHAR(180) NOT NULL, roles JSON NOT NULL, password VARCHAR(255) NOT NULL, name VARCHAR(255) NOT NULL, avatar VARCHAR(255) DEFAULT NULL, confirmed_at DATETIME DEFAULT NULL, activation_code VARCHAR(255) DEFAULT NULL, phone VARCHAR(255) DEFAULT NULL, deleted_at DATETIME DEFAULT NULL, UNIQUE INDEX UNIQ_8D93D649E7927C74 (email), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('ALTER TABLE address ADD CONSTRAINT FK_D4E6F81A76ED395 FOREIGN KEY (user_id) REFERENCES user (id)');
         $this->addSql('ALTER TABLE cart ADD CONSTRAINT FK_BA388B7A76ED395 FOREIGN KEY (user_id) REFERENCES user (id)');
+        $this->addSql('ALTER TABLE cart ADD CONSTRAINT FK_BA388B7E2068F9D FOREIGN KEY (pay_by_id) REFERENCES pay_system (id)');
+        $this->addSql('ALTER TABLE cart ADD CONSTRAINT FK_BA388B7BAECC696 FOREIGN KEY (delivery_by_id) REFERENCES delivery_price (id)');
         $this->addSql('ALTER TABLE cart_product ADD CONSTRAINT FK_2890CCAAD614C7E7 FOREIGN KEY (price_id) REFERENCES price (id)');
         $this->addSql('ALTER TABLE cart_product ADD CONSTRAINT FK_2890CCAA1AD5CDBF FOREIGN KEY (cart_id) REFERENCES cart (id)');
+        $this->addSql('ALTER TABLE cart_product ADD CONSTRAINT FK_2890CCAA8DE820D9 FOREIGN KEY (seller_id) REFERENCES user (id)');
         $this->addSql('ALTER TABLE day_offer ADD CONSTRAINT FK_901B3BDA4584665A FOREIGN KEY (product_id) REFERENCES product (id)');
         $this->addSql('ALTER TABLE feedback ADD CONSTRAINT FK_D2294458A76ED395 FOREIGN KEY (user_id) REFERENCES user (id)');
         $this->addSql('ALTER TABLE feedback ADD CONSTRAINT FK_D22944584584665A FOREIGN KEY (product_id) REFERENCES product (id)');
@@ -72,8 +75,11 @@ final class Version20230613194052 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE address DROP FOREIGN KEY FK_D4E6F81A76ED395');
         $this->addSql('ALTER TABLE cart DROP FOREIGN KEY FK_BA388B7A76ED395');
+        $this->addSql('ALTER TABLE cart DROP FOREIGN KEY FK_BA388B7E2068F9D');
+        $this->addSql('ALTER TABLE cart DROP FOREIGN KEY FK_BA388B7BAECC696');
         $this->addSql('ALTER TABLE cart_product DROP FOREIGN KEY FK_2890CCAAD614C7E7');
         $this->addSql('ALTER TABLE cart_product DROP FOREIGN KEY FK_2890CCAA1AD5CDBF');
+        $this->addSql('ALTER TABLE cart_product DROP FOREIGN KEY FK_2890CCAA8DE820D9');
         $this->addSql('ALTER TABLE day_offer DROP FOREIGN KEY FK_901B3BDA4584665A');
         $this->addSql('ALTER TABLE feedback DROP FOREIGN KEY FK_D2294458A76ED395');
         $this->addSql('ALTER TABLE feedback DROP FOREIGN KEY FK_D22944584584665A');

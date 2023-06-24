@@ -42,7 +42,7 @@ class ShowHistoryRepository extends ServiceEntityRepository
 
     public function getLast(User $user, int $count = 3)
     {
-        return $this->createQueryBuilder('s')
+        $result = $this->createQueryBuilder('s')
             ->distinct()
             ->leftJoin('s.product', 'p')
             ->addSelect('p')
@@ -71,6 +71,9 @@ class ShowHistoryRepository extends ServiceEntityRepository
             ->setMaxResults($count)
             ->getQuery()
             ->getResult();
+
+//        dd($result);
+        return $result;
     }
 
 }

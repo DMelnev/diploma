@@ -39,28 +39,31 @@ class DayOfferRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return DayOffer[] Returns an array of DayOffer objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('d')
-//            ->andWhere('d.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('d.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function getOffer()
+    {
+        return $this->createQueryBuilder('o')
+            ->leftJoin('o.product', 'p')
+            ->addSelect('p')
+            ->leftJoin('p.prices', 'pr')
+            ->addSelect('pr')
+            ->leftJoin('p.action', 'ac')
+            ->addSelect('ac')
+            ->leftJoin('p.section', 'sn')
+            ->addSelect('sn')
+            ->leftJoin('sn.parent', 'sng')
+            ->select('
+            p.name,
+            p.id,
+            MAX(pr.price) AS price,
+            ac.discount AS discount,
+            sn.name AS section,
+            sng.name AS group,
+            o.picture AS link,
+            o.until
+            ')
+            ->groupBy('p, o')
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 
-//    public function findOneBySomeField($value): ?DayOffer
-//    {
-//        return $this->createQueryBuilder('d')
-//            ->andWhere('d.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }

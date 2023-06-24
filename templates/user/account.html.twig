@@ -17,7 +17,7 @@
         </div>
         <div class="Section Section_column Section_columnLeft">
             <div class="wrap">
-                {% include('user/navigateProfile.html.twig') %}
+                {% include('user/block/navigateProfile.html.twig') %}
                 <div class="Section-content">
                     <div class="Account">
                         <div class="Account-group">
@@ -38,7 +38,7 @@
                         </div>
                         <div class="Account-group">
                             <div class="Account-column Account-column_full">
-                                {% include 'user/showOrder.html.twig' with {'order': cart, 'history':true} %}
+                                {% include 'user/block/showOrder.html.twig' with {'order': cart, 'history':true} %}
                             </div>
                         </div>
                         <div class="Account-group">
@@ -49,50 +49,7 @@
                                 </header>
                                 <div class="Cards Cards_account">
 
-                                    {% for product in history %}
-                                        <div class="Card"><a class="Card-picture" href="#">
-                                                <img src="{{ asset('img/content/home/'~product.link) }}"
-                                                     alt="{{ product.link }}"/>
-                                            </a>
-                                            <div class="Card-content">
-                                                <strong class="Card-title">
-                                                    <a href="#">{{ product.name }}</a>
-                                                </strong>
-                                                <div class="Card-description">
-                                                    <div class="Card-cost">
-                                                        {% if product.discount is not null %}
-                                                            <span class="Card-priceOld">{{ product.price|end_cost }}</span>
-                                                            <span class="Card-price">{{ (product.price - product.price*product.discount/100)|end_cost }}</span>
-                                                        {% else %}
-                                                            <span class="Card-price">{{ product.price|end_cost }}</span>
-                                                        {% endif %}
-                                                    </div>
-                                                    <div class="Card-category">
-                                                        {{ product.section }}{% if product.group is not null %} / {{ product.group }}{% endif %}
-                                                    </div>
-                                                    <div class="Card-hover">
-                                                        <a class="Card-btn" href="#">
-                                                            <img src="{{ asset('assets/img/icons/card/bookmark.svg') }}"
-                                                                 alt="bookmark.svg"/>
-                                                        </a>
-                                                        <a class="Card-btn" href="#">
-                                                            <img src="{{ asset('assets/img/icons/card/cart.svg') }}"
-                                                                 alt="cart.svg"/>
-                                                        </a>
-                                                        <a class="Card-btn" href="#">
-                                                            <img src="{{ asset('assets/img/icons/card/change.svg') }}"
-                                                                 alt="change.svg"/>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            {% if product.discount is not null %}
-                                                <div class="Card-sale">-{{ product.discount }}%</div>
-                                            {% endif %}
-                                        </div>
-                                    {% else %}
-                                        Записей не найдено
-                                    {% endfor %}
+                                    {% include 'user/block/products.html.twig' with {'products':history} %}
 
                                 </div>
                                 <div class="Account-editLink Account-editLink_view"><a
