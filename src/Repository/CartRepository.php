@@ -67,7 +67,7 @@ class CartRepository extends ServiceEntityRepository
         return key_exists(0, $result) ? $result[0] : null;
     }
 
-    public function getAll(User $user)
+    public function getAll(User $user, int $count)
     {
         return $this->createQueryBuilder('c')
             ->orderBy('c.id','DESC')
@@ -88,6 +88,7 @@ class CartRepository extends ServiceEntityRepository
             pay.description AS pay_by,
             c.status')
             ->groupBy('c')
+            ->setMaxResults($count)
             ->getQuery()
             ->getResult();
     }

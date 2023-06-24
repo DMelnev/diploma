@@ -47,7 +47,7 @@ class UserController extends AbstractController
             'social' => $this->socialRepository->findAll(),
             'categories' => $this->sectionRepository->getArray(),
             'cart' => $this->cartRepository->getLast($user),
-            'history' => $this->showHistoryRepository->getLast($user),
+            'history' => $this->showHistoryRepository->getLast($user, $this->getParameter('user.show_prehistory')),
         ]);
     }
 
@@ -72,7 +72,7 @@ class UserController extends AbstractController
         return $this->render('user/historyView.html.twig', [
             'social' => $this->socialRepository->findAll(),
             'categories' => $this->sectionRepository->getArray(),
-            'history' => $this->showHistoryRepository->getLast($user, 20),
+            'history' => $this->showHistoryRepository->getLast($user, $this->getParameter('user.show_history')),
         ]);
     }
 
@@ -86,7 +86,7 @@ class UserController extends AbstractController
         return $this->render('user/historyOrder.html.twig', [
             'social' => $this->socialRepository->findAll(),
             'categories' => $this->sectionRepository->getArray(),
-            'orders' => $this->cartRepository->getAll($user),
+            'orders' => $this->cartRepository->getAll($user, $this->getParameter('user.cart_history')),
         ]);
     }
 }

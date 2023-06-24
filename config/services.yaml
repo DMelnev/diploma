@@ -7,6 +7,12 @@ parameters:
     picture_uploads: 'img'
     picture_uploads_url: '%env(SITE_URL)%/%picture_uploads%'
     picture_uploads_dir: '%kernel.project_dir%/public/%picture_uploads%'
+    main.count_of_banners: '%env(MAIN_COUNT_OF_BANNERS)%'
+    main.count_of_actions: '%env(MAIN_COUNT_OF_ACTIONS)%'
+    main.count_of_limited: '%env(MAIN_COUNT_OF_LIMITED)%'
+    user.show_history: '%env(USER_SHOW_HISTORY)%'
+    user.cart_history: '%env(USER_CART_HISTORY)%'
+    user.show_prehistory: '%env(USER_SHOW_PRE_HISTORY)%'
 services:
     # default configuration for services in *this* file
     _defaults:

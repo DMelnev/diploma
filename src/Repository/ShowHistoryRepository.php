@@ -40,7 +40,7 @@ class ShowHistoryRepository extends ServiceEntityRepository
         }
     }
 
-    public function getLast(User $user, int $count = 3)
+    public function getLast(User $user, int $count)
     {
         $result = $this->createQueryBuilder('s')
             ->distinct()
