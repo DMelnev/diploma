@@ -9,6 +9,11 @@
     line-height: 46px;
 
 }
+
 .form-label {
+    margin-top: 18px;
+}
+
+.btn_success {
     margin-top: 18px;
 }

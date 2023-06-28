@@ -21,62 +21,55 @@
                 {% include('user/block/navigateProfile.html.twig') %}
                 <div class="Section-content">
                     <div class="Profile">
-                        <form class="form Profile-form" action="#" method="post">
-                            <div class="row">
-                                <div class="row-block">
-                                    <div class="form-group">
-                                        <label class="form-label" for="avatar">Аватар
-                                        </label>
-                                        <div class="Profile-avatar Profile-avatar_noimg">
-                                            <div class="Profile-img"><img src="assets/img/#.png" alt="#.png"/>
-                                            </div>
-                                            <label class="Profile-fileLabel" for="avatar">Выберите аватар
-                                            </label>
-                                            <input class="Profile-file form-input" id="avatar" name="avatar" type="file"
-                                                   data-validate="onlyImgAvatar"/>
+                        {{ form_start(form, {
+                            attr: {class: 'form Profile-form'}
+                        }) }}
+                        <div class="row">
+                            <div class="row-block">
+                                <div class="form-group">
+
+
+                                    <label class="form-label" for="avatar">Аватар
+                                    </label>
+                                    <div class="Profile-avatar Profile-avatar_noimg">
+                                        <div class="Profile-img"><img src="assets/img/#.png" alt="#.png"/>
                                         </div>
+                                        {{ form_label(form.avatar) }}
+                                        {{ form_widget(form.avatar) }}
                                     </div>
-                                    <div class="form-group">
-                                        <label class="form-label" for="name">ФИО
-                                        </label>
-                                        <input class="form-input" id="name" name="name" type="text" value=""
-                                               data-validate="require"/>
-                                    </div>
+
+
                                 </div>
-                                <div class="row-block">
-                                    <div class="form-group">
-                                        <label class="form-label" for="phone">Телефон
-                                        </label>
-                                        <input class="form-input" id="phone" name="phone" type="text"
-                                               value="+70000000000"/>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label" for="mail">E-mail
-                                        </label>
-                                        <input class="form-input" id="mail" name="mail" type="text"
-                                               value="send@test.test" data-validate="require"/>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label" for="password">Пароль
-                                        </label>
-                                        <input class="form-input" id="password" name="password" type="password"
-                                               placeholder="Тут можно изменить пароль"/>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label" for="passwordReply">Подтверждение пароля
-                                        </label>
-                                        <input class="form-input" id="passwordReply" name="passwordReply"
-                                               type="password" placeholder="Введите пароль повторно"/>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="Profile-btn">
-                                            <button class="btn btn_success" type="submit">Сохранить</button>
-                                        </div>
-                                        <div class="Profile-success">Профиль успешно сохранен</div>
-                                    </div>
+                                <div class="form-group">
+                                    {{ form_label(form.name, 'ФИО', {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(form.name, {'attr': {'class': 'form-input'}}) }}
+                                    <div class="form-error">{{ form_errors(form.name) }}</div>
                                 </div>
                             </div>
-                        </form>
+                            <div class="row-block">
+                                <div class="form-group">
+                                    {{ form_label(form.phone, 'Телефон', {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(form.phone, {'attr': {'class': 'form-input'}}) }}
+                                    <div class="form-error">{{ form_errors(form.phone) }}</div>
+                                </div>
+                                <div class="form-group">
+                                    {{ form_label(form.email, 'E-mail', {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(form.email, {'attr': {'class': 'form-input'}}) }}
+                                    <div class="form-error">{{ form_errors(form.email) }}</div>
+                                </div>
+
+                                {{ form_row(form.plainPassword) }}
+                                <div class="form-error">{{ form_errors(form.plainPassword) }}</div>
+
+                                <div class="form-group">
+                                    <div class="Profile-btn">
+                                        <button class="btn btn_success" type="submit">Сохранить</button>
+                                    </div>
+                                    <div class="Profile-success">Профиль успешно сохранен</div>
+                                </div>
+                            </div>
+                        </div>
+                        {{ form_end(form) }}
                     </div>
                 </div>
             </div>

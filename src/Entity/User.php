@@ -161,7 +161,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUserIdentifier(): string
     {
-        return (string) $this->email;
+        return (string)$this->email;
     }
 
     /**
@@ -169,7 +169,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->email;
+        return (string)$this->email;
     }
 
     /**
@@ -491,8 +491,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setPhone(?string $phone): self
     {
-        $this->phone = $phone;
+        $this->phone = $this->clearPhoneNumber($phone);
 
         return $this;
+    }
+
+    public function clearPhoneNumber(?string $number): ?string
+    {
+        if (!$number) return null;
+        $phone = preg_replace('/[^0-9]/', '', $number);
+        if ($phone[0] != '7') $phone[0] = '7';
+        if (strlen($phone) == 10 && $phone[0] == '9') $phone = '7' . $phone;
+        return $phone;
     }
 }

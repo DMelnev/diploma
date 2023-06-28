@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\Model\UserEditFormModel;
+use App\Form\UserEditFormType;
 use App\Repository\CartRepository;
 use App\Repository\SectionRepository;
 use App\Repository\ShowHistoryRepository;
@@ -56,9 +58,28 @@ class UserController extends AbstractController
      */
     public function profile(): Response
     {
-        return $this->render('user/profile.html.twig', [
+        /** @var User $user */
+        $user = $this->getUser();
+        $formType = new UserEditFormModel;
+        $formType
+            ->setPhone($user->getPhone())
+            ->setName($user->getName())
+            ->setEmail($user->getEmail());
+
+        $form = $this->createForm(UserEditFormType::class, $formType);
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var UserEditFormModel $userModel */
+            $userModel = $form->getData();
+            dd($userModel);
+            $image = $form->get('avatar')->getData();
+            $user
+                ->setName($userModel->getName())
+                ->setPhone($userModel->getPhone());
+        }
+        return $this->renderForm('user/profile.html.twig', [
             'social' => $this->socialRepository->findAll(),
             'categories' => $this->sectionRepository->getArray(),
+            'form' => $form,
         ]);
     }
 

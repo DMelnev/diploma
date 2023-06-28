@@ -50,11 +50,11 @@ class MainController extends AbstractController
         return $this->render('main/index.html.twig', [
             'social' => $this->socialRepository->findAll(),
             'categories' => $this->sectionRepository->getArray(),
-            'banners' => $this->bannerRepository->getRandom($this->getParameter('main_count_of_banners')),
+            'banners' => $this->bannerRepository->getRandom($this->getParameter('main.count_of_banners')),
             'products' => $this->cartProductRepository->getTopProducts(),
             'dayOffer' => $dayOffer,
-            'hotOffer' => $this->productRepository->getRandomAction($this->getParameter('main_count_of_actions')),
-            'limited' => $this->productRepository->getLimited($this->getParameter('main_count_of_limited'), $dayOffer['id'])
+            'hotOffer' => $this->productRepository->getRandomAction($this->getParameter('main.count_of_actions')),
+            'limited' => $this->productRepository->getLimited($this->getParameter('main.count_of_limited'), $dayOffer['id'])
         ]);
     }
 }
