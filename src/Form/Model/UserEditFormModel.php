@@ -3,6 +3,8 @@
 
 namespace App\Form\Model;
 
+use App\Validator\MatchPhone;
+use App\Validator\UniqueUser;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class UserEditFormModel
@@ -10,16 +12,13 @@ class UserEditFormModel
     /**
      * @Assert\NotBlank(message="Enter your name!")
      * @Assert\Length(
-     *     min="2",
      *     max="50",
-     *     minMessage="Name must be more than ico symbol!",
      *     maxMessage="Name must be less than 50 symbols!"
      * )
      */
     private $name;
 
     /**
-     * @Assert\NotBlank(message="Enter new password!")
      * @Assert\Length(
      *     min="6",
      *     max="100",
@@ -29,8 +28,16 @@ class UserEditFormModel
      */
     private string $plainPassword;
 
+    /**
+     * @MatchPhone()
+     */
     private $phone;
+
+    /**
+     * @UniqueUser()
+     */
     private $email;
+
     private $imageFilename;
 
     /**

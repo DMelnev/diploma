@@ -27,22 +27,21 @@
                         <div class="row">
                             <div class="row-block">
                                 <div class="form-group">
-
-
                                     <label class="form-label" for="avatar">Аватар
                                     </label>
-                                    <div class="Profile-avatar Profile-avatar_noimg">
-                                        <div class="Profile-img"><img src="assets/img/#.png" alt="#.png"/>
+                                    <div class="Profile-avatar{% if app.user.avatar is null %} Profile-avatar_noimg{% endif %}">
+                                        <div class="Profile-img">
+                                            <img src="{{ app.user.avatar |  imagine_filter('avatar_preview271') }}"
+                                                 alt="#.png"/>
                                         </div>
                                         {{ form_label(form.avatar) }}
                                         {{ form_widget(form.avatar) }}
                                     </div>
-
-
                                 </div>
                                 <div class="form-group">
                                     {{ form_label(form.name, 'ФИО', {'label_attr': {'class': 'form-label'}}) }}
                                     {{ form_widget(form.name, {'attr': {'class': 'form-input'}}) }}
+
                                     <div class="form-error">{{ form_errors(form.name) }}</div>
                                 </div>
                             </div>
@@ -58,14 +57,26 @@
                                     <div class="form-error">{{ form_errors(form.email) }}</div>
                                 </div>
 
-                                {{ form_row(form.plainPassword) }}
-                                <div class="form-error">{{ form_errors(form.plainPassword) }}</div>
+                                <div class="form-group">
+                                    {{ form_label(form.plainPassword.children['first']) }}
+                                    {{ form_widget(form.plainPassword.children['first']) }}
+                                    <div class="form-error">{{ form_errors(form.plainPassword.children['first']) }}</div>
+                                </div>
+
+                                <div class="form-group">
+                                    {{ form_label(form.plainPassword.children['second']) }}
+                                    {{ form_widget(form.plainPassword.children['second']) }}
+                                </div>
 
                                 <div class="form-group">
                                     <div class="Profile-btn">
                                         <button class="btn btn_success" type="submit">Сохранить</button>
                                     </div>
-                                    <div class="Profile-success">Профиль успешно сохранен</div>
+                                    {% if app.session.flashBag.peek('success')|length > 0 %}
+                                        {% for message in app.flashes('success') %}
+                                            <div class="Profile-success">Профиль успешно сохранен</div>
+                                        {% endfor %}
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>

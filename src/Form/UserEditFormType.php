@@ -36,13 +36,16 @@ class UserEditFormType extends AbstractType
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'invalid_message' => 'Passwords must be equal!',
+//                'error_bubbling'=>true,
                 'options' => [
                     'attr' => ['class' => 'form-input'],
                     'row_attr'=>['class' => 'form-group'],
                     'label_attr'=>['class' => 'form-label'],
                     ],
                 'required' => false,
-                'first_options' => ['label' => 'Введите новый пароль',],
+                'first_options' => [
+                    'label' => 'Введите новый пароль',
+                    ],
                 'second_options' => ['label' => 'Подтверждение пароля',],
             ])
 

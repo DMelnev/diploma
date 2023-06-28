@@ -28,7 +28,7 @@
                             <div class="Account-column">
                                 {% if app.user.avatar is not null %}
                                     <div class="Account-avatar">
-                                        <img src="{{ absolute_url('/img/content/home/'~ app.user.avatar) }}"
+                                        <img src="{{ app.user.avatar |  imagine_filter('avatar_preview152') }}"
                                              alt="{{ app.user.avatar }}"/>
                                     </div>
                                 {% endif %}

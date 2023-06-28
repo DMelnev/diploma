@@ -9,8 +9,11 @@ use App\Repository\CartRepository;
 use App\Repository\SectionRepository;
 use App\Repository\ShowHistoryRepository;
 use App\Repository\SocialRepository;
+use App\Service\MyFiles;
+use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -56,7 +59,11 @@ class UserController extends AbstractController
     /**
      * @Route ("/cabinet/profile", name="app_user_profile")
      */
-    public function profile(): Response
+    public function profile(
+        Request $request,
+        MyFiles $uploader,
+        EntityManagerInterface $entityManager
+    ): Response
     {
         /** @var User $user */
         $user = $this->getUser();
@@ -67,14 +74,23 @@ class UserController extends AbstractController
             ->setEmail($user->getEmail());
 
         $form = $this->createForm(UserEditFormType::class, $formType);
+        $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var UserEditFormModel $userModel */
             $userModel = $form->getData();
-            dd($userModel);
             $image = $form->get('avatar')->getData();
+            if ($image) {
+                $filename = $uploader->uploadDeleteFile($image, $user->getAvatar());
+                $user->setAvatar($filename);
+            }
             $user
                 ->setName($userModel->getName())
-                ->setPhone($userModel->getPhone());
+                ->setPhone($userModel->getPhone()
+                );
+            $entityManager->persist($user);
+            $entityManager->flush();
+            $this->addFlash('success', 'Профиль успешно сохранен');
         }
         return $this->renderForm('user/profile.html.twig', [
             'social' => $this->socialRepository->findAll(),

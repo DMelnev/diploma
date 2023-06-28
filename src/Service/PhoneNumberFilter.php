@@ -7,27 +7,21 @@ namespace App\Service;
 class PhoneNumberFilter
 {
     private const ALLOWED_COUNTRIES = [
-        "ru" => ["length" => 11, "codes" => ["|^8|", "|^7|",]],
+        "ru" => ["length" => 11, "codes" => ["|^89|", "|^79|",]],
     ];
 
-    public function filter(array $numbers): bool
+    public function filter($number): bool
     {
-        foreach ($numbers as $number) {
-            $marker = true;
-            $phone = preg_replace('/[^0-9]/', '', $number);
-            foreach (self::ALLOWED_COUNTRIES as $item) {
-                if (strlen($phone) == $item["length"]) {
-                    foreach ($item["codes"] as $code) {
-                        if (preg_match($code, $phone)) {
-                            $marker = false;
-                            break;
-                        }
+        $phone = preg_replace('/[^0-9]/', '', $number);
+        foreach (self::ALLOWED_COUNTRIES as $item) {
+            if (strlen($phone) == $item["length"]) {
+                foreach ($item["codes"] as $code) {
+                    if (preg_match($code, $phone)) {
+                        return true;
                     }
-                    if ($marker) break;
                 }
             }
-            if ($marker) return false;
         }
-        return true;
+        return false;
     }
 }

@@ -1,11 +1,14 @@
 liip_imagine:
     driver: gd
-
+    default_filter_set_settings:
+        format: webp
+    webp:
+        generate: true
     resolvers:
         flysystem_resolver:
             flysystem:
-                filesystem_service: oneup_flysystem.uploads_picture_filesystem
-                root_url: "%picture_uploads_url%"
+                filesystem_service: oneup_flysystem.uploads_avatar_filesystem
+                root_url: "%avatar_uploads_url%"
                 cache_prefix: media/cache
                 visibility: public
 
@@ -16,37 +19,22 @@ liip_imagine:
     loaders:
         picture_flysystem_loader:
             flysystem:
-                filesystem_service: oneup_flysystem.uploads_picture_filesystem
+                filesystem_service: oneup_flysystem.uploads_avatar_filesystem
     data_loader: picture_flysystem_loader
 
     filter_sets:
         cache: ~
 
-        picture_preview:
-            quality: 75
-            filters:
-                thumbnail: { size: [ 100, 100 ], mode: inset }
-
-        article_preview:
+        avatar_preview271:
             quality: 60
             filters:
-                thumbnail: { size: [ 200, 200 ], mode: outbound }
+                thumbnail: { size: [ 271, 271 ], mode: inset }
+        avatar_preview152:
+            quality: 60
+            filters:
+                thumbnail: { size: [ 152, 152 ], mode: inset }
 
         article_show_edit:
             quality: 60
             filters:
-                thumbnail: { size: [ 300, 300 ], mode: inset }
-
-        pict_in_article_preview:
-            quality: 60
-            filters:
-                thumbnail: { size: [ 100, 100 ], mode: outbound }
-
-        view_article:
-            quality: 60
-            filters:
-                thumbnail: { size: [ 800, 600 ], mode: outbond }
-        logo:
-            quality: 75
-            filters:
-                thumbnail: {size: [ 50, 50 ], mode: inset}
+                thumbnail: { size: [ 300, 300 ], mode: outbond }

@@ -11,7 +11,7 @@
                                 {% for item in  social %}
                                     <li class="menu-item">
                                         <a class="menu-link" href="{{ item.link }}">
-                                            <img src="{{ absolute_url('assets/img/icons/socialHeader/'~ item.picture) }}"
+                                            <img src="{{ absolute_url('../assets/img/icons/socialHeader/'~ item.picture) }}"
                                                  alt="{{ item.description }}"/></a>
                                     </li>
                                 {% endfor %}
