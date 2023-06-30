@@ -41,6 +41,8 @@ class ProductRepository extends ServiceEntityRepository
 
     public function getRandomAction(int $count): array
     {
+
+
         $connect = $this->getEntityManager()->getConnection();
         $sql = sprintf('
         SELECT DISTINCT 
@@ -49,14 +51,13 @@ class ProductRepository extends ServiceEntityRepository
         sg.name as `group`,
         p.name,
         p.id,
-        pp.link as link,
+        p.picture,
         ac.discount as discount
         FROM product p
         LEFT JOIN action ac ON ac.id = p.action_id
         LEFT JOIN price pr ON pr.product_id = p.id
         LEFT JOIN section s on p.section_id = s.id
         LEFT JOIN section_group sg on s.parent_id = sg.id
-        LEFT JOIN product_picture pp on p.id = pp.product_id
         WHERE ac.until > CURRENT_TIMESTAMP()
         ORDER BY RAND()
         LIMIT %d
@@ -67,26 +68,57 @@ class ProductRepository extends ServiceEntityRepository
 
     public function getLimited(int $count, int $dayOfferId): array
     {
-        $conn = $this->getEntityManager()->getConnection();
-        $sql = sprintf("
-        SELECT
-	p.name AS name,
-	p.id AS id,
-	max(pr.price) AS price,
-    (SELECT pp.link FROM product_picture AS pp WHERE pp.product_id = p.id LIMIT 1) AS link,
-    ac.discount AS discount,
-    sn.name AS section,
-	sng.name AS `group`
-FROM product AS p
-LEFT JOIN price AS pr ON p.id = pr.product_id
-LEFT JOIN `action` AS ac ON ac.id = p.action_id
-LEFT JOIN section as sn ON sn.id = p.section_id
-LEFT JOIN section_group as sng ON sng.id = sn.parent_id
-WHERE p.limited = true and p.id != :dayOffer
-GROUP BY id DESC
-LIMIT %d", $count);
-        $stmt = $conn->prepare($sql);
-        $result = $stmt->executeQuery(["dayOffer" => $dayOfferId]);
-        return $result->fetchAllAssociative();
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.id > 0')
+            ->leftJoin('p.prices', 'pr')
+            ->addSelect('pr')
+            ->leftJoin('p.action', 'ac')
+            ->addSelect('ac')
+            ->leftJoin('p.section', 'sn')
+            ->addSelect('sn')
+            ->leftJoin('sn.parent', 'sng')
+            ->addSelect('sng')
+            ->select("
+            p.name AS name,
+	        p.id AS id,
+	        max(pr.price) AS price,
+            p.picture,
+            ac.discount AS discount,
+            sn.name AS section,
+	        sng.name AS group
+	        ")
+            ->andWhere('p.limited = true')
+            ->andWhere('p.id != :dayOffer')
+            ->setParameter('dayOffer', $dayOfferId)
+            ->orderBy('p.id', 'DESC')
+            ->groupBy('p')
+            ->setMaxResults($count)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function getSorted()
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.id > 0')
+            ->leftJoin('p.prices', 'pr')
+            ->addSelect('pr')
+            ->leftJoin('p.action', 'ac')
+            ->addSelect('ac')
+            ->leftJoin('p.section', 'sn')
+            ->addSelect('sn')
+            ->leftJoin('sn.parent', 'sng')
+            ->addSelect('sng')
+            ->select("
+            p.name AS name,
+	        p.id AS id,
+	        max(pr.price) AS price,
+            p.picture,
+            ac.discount AS discount,
+            sn.name AS section,
+	        sng.name AS group
+	        ")
+            ->orderBy('p.id', 'DESC')
+            ->groupBy('p');
     }
 }

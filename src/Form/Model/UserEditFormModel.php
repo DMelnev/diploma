@@ -26,7 +26,7 @@ class UserEditFormModel
      *     maxMessage="Password must be less than 100 symbols!"
      * )
      */
-    private string $plainPassword;
+    private ?string $plainPassword;
 
     /**
      * @MatchPhone()
@@ -34,6 +34,7 @@ class UserEditFormModel
     private $phone;
 
     /**
+     * @Assert\NotBlank(message="Enter E-mail!")
      * @UniqueUser()
      */
     private $email;
@@ -58,15 +59,16 @@ class UserEditFormModel
     }
 
     /**
-     * @return string
+     * @return mixed
      */
-    public function getPlainPassword(): string
+    public function getPlainPassword(): ?string
     {
-        return $this->plainPassword;
+
+        return $this->plainPassword ?? null;
     }
 
 
-    public function setPlainPassword(string $plainPassword): self
+    public function setPlainPassword(?string $plainPassword): self
     {
         $this->plainPassword = $plainPassword;
         return $this;

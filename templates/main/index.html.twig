@@ -124,7 +124,7 @@
                         <h2 class="Section-title">Каталог Топ товаров</h2>
                     </header>
                     <div class="Cards">
-                        {% include 'user/block/products.html.twig' with {'products':products} %}
+                        {% include '/block/products.html.twig' with {'products':products} %}
                     </div>
                 </div>
             </div>
@@ -141,7 +141,7 @@
                             </div>
                         </header>
                         <div class="Slider-box Cards Cards_hz">
-                            {% include 'user/block/products.html.twig' with {'products':hotOffer, 'slider':true} %}
+                            {% include '/block/products.html.twig' with {'products':hotOffer, 'slider':true} %}
                         </div>
                     </div>
                 </div>
@@ -205,7 +205,7 @@
                             </div>
                         </header>
                         <div class="Slider-box Cards">
-                            {% include 'user/block/products.html.twig' with {'products':limited, 'slider':true} %}
+                            {% include '/block/products.html.twig' with {'products':limited, 'slider':true} %}
                         </div>
                     </div>
                 </div>

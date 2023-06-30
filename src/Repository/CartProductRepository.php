@@ -93,7 +93,7 @@ class CartProductRepository extends ServiceEntityRepository
 	p.id AS id,
     COUNT(p.id) AS sm,
 	max(pr.price) AS price,
-    (SELECT pp.link FROM product_picture AS pp WHERE pp.product_id = p.id LIMIT 1) AS link,
+    p.picture,
     ac.discount AS discount,
     sn.name AS section,
 	sng.name AS `group`

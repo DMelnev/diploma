@@ -77,9 +77,9 @@ class Product
     private $dayOffers;
 
     /**
-     * @ORM\OneToMany(targetEntity=ProductPicture::class, mappedBy="product")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $productPictures;
+    private $picture;
 
     /**
      * @ORM\OneToMany(targetEntity=ProductProperty::class, mappedBy="product")
@@ -262,27 +262,6 @@ class Product
         return $this->productPictures;
     }
 
-    public function addProductPicture(ProductPicture $productPicture): self
-    {
-        if (!$this->productPictures->contains($productPicture)) {
-            $this->productPictures[] = $productPicture;
-            $productPicture->setProduct($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProductPicture(ProductPicture $productPicture): self
-    {
-        if ($this->productPictures->removeElement($productPicture)) {
-            // set the owning side to null (unless already changed)
-            if ($productPicture->getProduct() === $this) {
-                $productPicture->setProduct(null);
-            }
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, ProductProperty>
@@ -401,6 +380,23 @@ class Product
             }
         }
 
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPicture()
+    {
+        return $this->picture;
+    }
+
+    /**
+     * @param mixed $picture
+     */
+    public function setPicture($picture): self
+    {
+        $this->picture = $picture;
         return $this;
     }
 }

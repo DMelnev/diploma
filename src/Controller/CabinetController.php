@@ -15,14 +15,15 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Class UserController
+ * Class CabinetController
  * @package App\Controller
  * @IsGranted("ROLE_USER")
  */
-class UserController extends AbstractController
+class CabinetController extends AbstractController
 {
     private SocialRepository $socialRepository;
     private SectionRepository $sectionRepository;
@@ -62,7 +63,8 @@ class UserController extends AbstractController
     public function profile(
         Request $request,
         MyFiles $uploader,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        UserPasswordHasherInterface $passwordHash
     ): Response
     {
         /** @var User $user */
@@ -88,6 +90,12 @@ class UserController extends AbstractController
                 ->setName($userModel->getName())
                 ->setPhone($userModel->getPhone()
                 );
+            if ($userModel->getPlainPassword()){
+                $user->setPassword($passwordHash->hashPassword(
+                    $user,
+                    $userModel->getPlainPassword()
+                ));
+            }
             $entityManager->persist($user);
             $entityManager->flush();
             $this->addFlash('success', 'Профиль успешно сохранен');

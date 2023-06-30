@@ -25,7 +25,8 @@ class ProductFixtures extends BaseFixtures implements DependentFixtureInterface
                 ->setShortDescription($this->faker->realTextBetween(50, 200))
                 ->setLimited($this->faker->boolean(10))
                 ->setUnit($this->getRandomReference(Unit::class))
-                ->setSection($this->getRandomReference(Section::class));
+                ->setSection($this->getRandomReference(Section::class))
+                ->setPicture('card.jpg');
             if ($this->faker->boolean(70)) {
                 $product->setAction($this->getRandomReference(Action::class));
             }

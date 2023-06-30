@@ -18,12 +18,12 @@
         </div>
         <div class="Section Section_column Section_columnLeft">
             <div class="wrap">
-                {% include('user/block/navigateProfile.html.twig') %}
+                {% include('/block/navigateProfile.html.twig') %}
                 <div class="Section-content">
                     <div class="Orders">
 
                         {% for order in orders %}
-                            {% include 'user/block/showOrder.html.twig' with{'order':order} %}
+                            {% include '/block/showOrder.html.twig' with{'order':order} %}
                         {% else %}
                             Заказов не найдено
                         {% endfor %}

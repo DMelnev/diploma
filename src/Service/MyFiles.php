@@ -14,12 +14,12 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class MyFiles
 {
     private SluggerInterface $slugger;
-    private FilesystemOperator $uploadsAvatarFilesystem;
+    private FilesystemOperator $uploadsPictureFilesystem;
 
-    public function __construct(SluggerInterface $slugger, FilesystemOperator $uploadsAvatarFilesystem)
+    public function __construct(SluggerInterface $slugger, FilesystemOperator $uploadsPictureFilesystem)
     {
         $this->slugger = $slugger;
-        $this->uploadsAvatarFilesystem = $uploadsAvatarFilesystem;
+        $this->uploadsPictureFilesystem = $uploadsPictureFilesystem;
     }
 
     private function checkPath(string &$path): bool
@@ -48,8 +48,8 @@ class MyFiles
     public function deleteFile(string $path): string
     {
         try {
-            if ($path && $this->uploadsAvatarFilesystem->fileExists($path)) {
-                $this->uploadsAvatarFilesystem->delete($path);
+            if ($path && $this->uploadsPictureFilesystem->fileExists($path)) {
+                $this->uploadsPictureFilesystem->delete($path);
                 return 'Файл ' . $path . ' удален!';
             }
             return 'Файл ' . $path . ' не найден!';
@@ -69,12 +69,12 @@ class MyFiles
                     $file instanceof UploadedFile ? $file->getClientOriginalName() : $file->getFilename(),
                     PATHINFO_FILENAME)
             )
-//            ->append('-' . uniqid())
+            ->append('-' . uniqid())
             ->append('.' . $file->guessExtension())
             ->toString();
         try {
             $stream = fopen($file->getPathname(), 'r');
-            $this->uploadsAvatarFilesystem->writeStream($fileName, $stream);
+            $this->uploadsPictureFilesystem->writeStream($fileName, $stream);
             if (is_resource($stream)) {
                 fclose($stream);
             }
@@ -102,7 +102,7 @@ class MyFiles
 
         try {
             $stream = fopen($file->getPathname(), 'r');
-            $this->uploadsAvatarFilesystem->writeStream($fileName, $stream);
+            $this->uploadsPictureFilesystem->writeStream($fileName, $stream);
             if (is_resource($stream)) {
                 fclose($stream);
             }
@@ -111,8 +111,8 @@ class MyFiles
         }
 
         try {
-            if ($oldFileName && $this->uploadsAvatarFilesystem->fileExists($oldFileName)) {
-                $this->uploadsAvatarFilesystem->delete($oldFileName);
+            if ($oldFileName && $this->uploadsPictureFilesystem->fileExists($oldFileName)) {
+                $this->uploadsPictureFilesystem->delete($oldFileName);
             }
         } catch (\Exception $e) {
             throw new \Exception('Не удалось удалить файл ' . $fileName . '. Ошибка ' . $e->getMessage());

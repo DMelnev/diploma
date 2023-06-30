@@ -21,7 +21,7 @@
         </div>
         <div class="Section Section_column Section_columnLeft">
             <div class="wrap">
-                {% include('user/block/navigateProfile.html.twig') %}
+                {% include('/block/navigateProfile.html.twig') %}
                 <div class="Section-content">
                     <div class="Account">
                         <div class="Account-group">
@@ -41,7 +41,7 @@
                         </div>
                         <div class="Account-group">
                             <div class="Account-column Account-column_full">
-                                {% include 'user/block/showOrder.html.twig' with {'order': cart, 'history':true} %}
+                                {% include '/block/showOrder.html.twig' with {'order': cart, 'history':true} %}
                             </div>
                         </div>
                         <div class="Account-group">
@@ -50,7 +50,7 @@
                                     <h2 class="Section-title">История просмотров</h2>
                                 </header>
                                 <div class="Cards Cards_account">
-                                    {% include 'user/block/products.html.twig' with {'products':history} %}
+                                    {% include '/block/products.html.twig' with {'products':history} %}
                                 </div>
                                 <div class="Account-editLink Account-editLink_view">
                                     <a href="{{ url('app_user_view_history') }}">Перейти на полный список</a>

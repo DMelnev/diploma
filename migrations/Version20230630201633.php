@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20230623214247 extends AbstractMigration
+final class Version20230630201633 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -32,8 +32,7 @@ final class Version20230623214247 extends AbstractMigration
         $this->addSql('CREATE TABLE pay_system (id INT AUTO_INCREMENT NOT NULL, picture VARCHAR(255) NOT NULL, description VARCHAR(255) NOT NULL, link VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE phone (id INT AUTO_INCREMENT NOT NULL, user_id INT NOT NULL, number VARCHAR(255) NOT NULL, INDEX IDX_444F97DDA76ED395 (user_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE price (id INT AUTO_INCREMENT NOT NULL, seller_id INT NOT NULL, product_id INT NOT NULL, price INT NOT NULL, quantity INT NOT NULL, INDEX IDX_CAC822D98DE820D9 (seller_id), INDEX IDX_CAC822D94584665A (product_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE product (id INT AUTO_INCREMENT NOT NULL, section_id INT NOT NULL, unit_id INT NOT NULL, action_id INT DEFAULT NULL, name VARCHAR(255) NOT NULL, short_description VARCHAR(255) DEFAULT NULL, description LONGTEXT DEFAULT NULL, likes INT NOT NULL, dislikes INT NOT NULL, limited TINYINT(1) DEFAULT NULL, deleted_at DATETIME DEFAULT NULL, INDEX IDX_D34A04ADD823E37A (section_id), INDEX IDX_D34A04ADF8BD700D (unit_id), INDEX IDX_D34A04AD9D32F035 (action_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE product_picture (id INT AUTO_INCREMENT NOT NULL, product_id INT DEFAULT NULL, link VARCHAR(255) NOT NULL, INDEX IDX_C70254394584665A (product_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE product (id INT AUTO_INCREMENT NOT NULL, section_id INT NOT NULL, unit_id INT NOT NULL, action_id INT DEFAULT NULL, name VARCHAR(255) NOT NULL, short_description VARCHAR(255) DEFAULT NULL, description LONGTEXT DEFAULT NULL, likes INT NOT NULL, dislikes INT NOT NULL, limited TINYINT(1) DEFAULT NULL, picture VARCHAR(255) DEFAULT NULL, deleted_at DATETIME DEFAULT NULL, INDEX IDX_D34A04ADD823E37A (section_id), INDEX IDX_D34A04ADF8BD700D (unit_id), INDEX IDX_D34A04AD9D32F035 (action_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE product_property (id INT AUTO_INCREMENT NOT NULL, property_id INT NOT NULL, product_id INT NOT NULL, value VARCHAR(255) DEFAULT NULL, INDEX IDX_40427649549213EC (property_id), INDEX IDX_404276494584665A (product_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE property (id INT AUTO_INCREMENT NOT NULL, unit_id INT NOT NULL, p_group_id INT NOT NULL, name VARCHAR(255) NOT NULL, INDEX IDX_8BF21CDEF8BD700D (unit_id), INDEX IDX_8BF21CDE235E6567 (p_group_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE property_group (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
@@ -60,7 +59,6 @@ final class Version20230623214247 extends AbstractMigration
         $this->addSql('ALTER TABLE product ADD CONSTRAINT FK_D34A04ADD823E37A FOREIGN KEY (section_id) REFERENCES section (id)');
         $this->addSql('ALTER TABLE product ADD CONSTRAINT FK_D34A04ADF8BD700D FOREIGN KEY (unit_id) REFERENCES unit (id)');
         $this->addSql('ALTER TABLE product ADD CONSTRAINT FK_D34A04AD9D32F035 FOREIGN KEY (action_id) REFERENCES action (id)');
-        $this->addSql('ALTER TABLE product_picture ADD CONSTRAINT FK_C70254394584665A FOREIGN KEY (product_id) REFERENCES product (id)');
         $this->addSql('ALTER TABLE product_property ADD CONSTRAINT FK_40427649549213EC FOREIGN KEY (property_id) REFERENCES property (id)');
         $this->addSql('ALTER TABLE product_property ADD CONSTRAINT FK_404276494584665A FOREIGN KEY (product_id) REFERENCES product (id)');
         $this->addSql('ALTER TABLE property ADD CONSTRAINT FK_8BF21CDEF8BD700D FOREIGN KEY (unit_id) REFERENCES unit (id)');
@@ -90,7 +88,6 @@ final class Version20230623214247 extends AbstractMigration
         $this->addSql('ALTER TABLE product DROP FOREIGN KEY FK_D34A04ADD823E37A');
         $this->addSql('ALTER TABLE product DROP FOREIGN KEY FK_D34A04ADF8BD700D');
         $this->addSql('ALTER TABLE product DROP FOREIGN KEY FK_D34A04AD9D32F035');
-        $this->addSql('ALTER TABLE product_picture DROP FOREIGN KEY FK_C70254394584665A');
         $this->addSql('ALTER TABLE product_property DROP FOREIGN KEY FK_40427649549213EC');
         $this->addSql('ALTER TABLE product_property DROP FOREIGN KEY FK_404276494584665A');
         $this->addSql('ALTER TABLE property DROP FOREIGN KEY FK_8BF21CDEF8BD700D');
@@ -111,7 +108,6 @@ final class Version20230623214247 extends AbstractMigration
         $this->addSql('DROP TABLE phone');
         $this->addSql('DROP TABLE price');
         $this->addSql('DROP TABLE product');
-        $this->addSql('DROP TABLE product_picture');
         $this->addSql('DROP TABLE product_property');
         $this->addSql('DROP TABLE property');
         $this->addSql('DROP TABLE property_group');

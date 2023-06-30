@@ -48,8 +48,6 @@ class ShowHistoryRepository extends ServiceEntityRepository
             ->addSelect('p')
             ->leftJoin('p.prices', 'pr')
             ->addSelect('pr')
-            ->leftJoin('p.productPictures', 'pp')
-            ->addSelect('pp')
             ->leftJoin('p.action', 'ac')
             ->addSelect('ac')
             ->leftJoin('p.section', 'sn')
@@ -59,7 +57,7 @@ class ShowHistoryRepository extends ServiceEntityRepository
             s.id AS sh,
             p.name,
             p.id,
-            pp.link AS link,
+            p.picture,
             pr.price AS price,
             ac.discount AS discount,
             sn.name AS section,

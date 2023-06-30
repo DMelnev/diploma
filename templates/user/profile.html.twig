@@ -18,7 +18,7 @@
         </div>
         <div class="Section Section_column Section_columnLeft">
             <div class="wrap">
-                {% include('user/block/navigateProfile.html.twig') %}
+                {% include('/block/navigateProfile.html.twig') %}
                 <div class="Section-content">
                     <div class="Profile">
                         {{ form_start(form, {
@@ -31,8 +31,8 @@
                                     </label>
                                     <div class="Profile-avatar{% if app.user.avatar is null %} Profile-avatar_noimg{% endif %}">
                                         <div class="Profile-img">
-                                            <img src="{{ app.user.avatar |  imagine_filter('avatar_preview271') }}"
-                                                 alt="#.png"/>
+                                            <img src="{% if app.user.avatar is not null %}{{ app.user.avatar |  imagine_filter('avatar_preview271') }}{% endif %}"
+                                                 alt="avatar"/>
                                         </div>
                                         {{ form_label(form.avatar) }}
                                         {{ form_widget(form.avatar) }}
