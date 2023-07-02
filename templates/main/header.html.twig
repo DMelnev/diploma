@@ -91,7 +91,7 @@
                         {% for category in categories %}
                             <div class="CategoriesButton-link">
                                 {% if category is iterable %}
-                                    <a href="#">
+                                    <a style="pointer-events: none;">
                                         <div class="CategoriesButton-icon">
                                             <img src="{{ asset('img/icons/departments/'~ category[0].icon) }}"
                                                  alt="{{ category[0].name }}"/>
@@ -102,7 +102,8 @@
                                     <div class="CategoriesButton-submenu">
 
                                         {% for subcategory in category|slice(1) %}
-                                            <a class="CategoriesButton-link" href="#">
+                                            <a class="CategoriesButton-link"
+                                               href="{{ url('app_catalog', {'id':subcategory.id}) }}">
                                                 <div class="CategoriesButton-icon"><img
                                                             src="{{ asset('img/icons/departments/'~ subcategory.icon) }}"
                                                             alt="{{ subcategory.name }}"/>
@@ -114,7 +115,7 @@
                                     </div>
 
                                 {% else %}
-                                    <a href="#">
+                                    <a href="{{ url('app_catalog', {'id':category.id}) }}">
                                         <div class="CategoriesButton-icon">
                                             <img src="{{ asset('img/icons/departments/'~ category.icon) }}"
                                                  alt="{{ category.name }}"/>

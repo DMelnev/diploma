@@ -17,3 +17,8 @@
 .btn_success {
     margin-top: 18px;
 }
+
+label.required:before {
+    content: "* ";
+    color: red;
+}

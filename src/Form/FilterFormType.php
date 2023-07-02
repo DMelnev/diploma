@@ -8,6 +8,7 @@ use App\Form\Model\FilterFormModel;
 use App\Repository\ProductPropertyRepository;
 use App\Repository\UserRepository;
 use App\Service\RolesConst;
+use App\Service\SortConst;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -16,7 +17,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class FilterFormType extends AbstractType implements RolesConst
+class FilterFormType extends AbstractType implements RolesConst, SortConst
 {
     private UserRepository $userRepository;
     private ProductPropertyRepository $ppRepository;
@@ -24,7 +25,9 @@ class FilterFormType extends AbstractType implements RolesConst
     /**
      * FilterFormType constructor.
      */
-    public function __construct(UserRepository $userRepository, ProductPropertyRepository $ppRepository)
+    public function __construct(
+        UserRepository $userRepository,
+        ProductPropertyRepository $ppRepository)
     {
         $this->userRepository = $userRepository;
         $this->ppRepository = $ppRepository;
@@ -41,10 +44,10 @@ class FilterFormType extends AbstractType implements RolesConst
                     'class' => 'range-line',
                     'id' => 'price',
                     'data-type' => 'double',
-                    'data-min' => '7',
-                    'data-max' => '50',
-                    'data-from' => '7',
-                    'data-to' => '27'
+                    'data-min' => $options[self::FILTER_MIN_PRICE],
+                    'data-max' => $options[self::FILTER_MAX_PRICE],
+                    'data-from' => $options[self::FILTER_FROM_PRICE],
+                    'data-to' => $options[self::FILTER_TO_PRICE],
                 ]
             ])
             ->add('title', TextType::class, [
@@ -71,11 +74,11 @@ class FilterFormType extends AbstractType implements RolesConst
             ])
             ->add('memoryValue', ChoiceType::class, [
                 'required' => false,
-                'placeholder' => 'Объем памяти',
+                'placeholder' => self::FILTER_TEMP,
                 'choice_attr' => [
                     'placeholder' => ['disabled' => true],
                 ],
-                'choices' => $this->ppRepository->propertiesGroup('Объем памяти'),
+                'choices' => $this->ppRepository->propertiesGroup(self::FILTER_TEMP),
                 'attr' => [
                     'class' => 'form-select',
                     'size' => 4,
@@ -87,6 +90,12 @@ class FilterFormType extends AbstractType implements RolesConst
     {
         $resolver->setDefaults([
             'data_class' => FilterFormModel::class,
+        ]);
+        $resolver->setRequired([
+            self::FILTER_MIN_PRICE,
+            self::FILTER_MAX_PRICE,
+            self::FILTER_FROM_PRICE,
+            self::FILTER_TO_PRICE,
         ]);
     }
 }

@@ -60,7 +60,7 @@ class ProductPropertyRepository extends ServiceEntityRepository
             ->getResult();
         $res = [];
         foreach ($result as $item) {
-            $res[$item['value'] . ' ' . $item['unit']] = $item['id'];
+            $res[$item['value'] . ' ' . $item['unit']] = $item['value'];
         }
         return $res;
 

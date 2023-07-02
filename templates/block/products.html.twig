@@ -4,7 +4,7 @@
         <div class="Slider-content">
     {% endif %}
     <div class="Card">
-        <a class="Card-picture" href="#">
+        <a class="Card-picture" href="{{ url('app_product', {'id':product.id}) }}">
             <img src="{{ asset('img/content/home/'~product.picture) }}"
                  alt="{{ product.picture }}"/>
         </a>
