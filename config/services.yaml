@@ -5,7 +5,7 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
     cache_adapter: cache.adapter.filesystem
-#    picture_uploads_dir: '%kernel.project_dir%/public/%picture_uploads%'
+    #    picture_uploads_dir: '%kernel.project_dir%/public/%picture_uploads%'
     main.count_of_banners: '%env(MAIN_COUNT_OF_BANNERS)%'
     main.count_of_actions: '%env(MAIN_COUNT_OF_ACTIONS)%'
     main.count_of_limited: '%env(MAIN_COUNT_OF_LIMITED)%'
@@ -17,6 +17,11 @@ parameters:
     uploads: '%env(PICTURE_UPLOAD_PATH)%'
     uploads_url: '%env(SITE_URL)%/%uploads%'
     catalog.page_limit: '%env(CATALOG_PAGE_LIMIT)%'
+    sort.multiply: '%env(bool:SORT_MULTIPLY)%'
+
+    role.user: '%env(ROLE_USER)%'
+    role.admin: '%env(ROLE_ADMIN)%'
+    role.seller: '%env(ROLE_SELLER)%'
 
 
 services:

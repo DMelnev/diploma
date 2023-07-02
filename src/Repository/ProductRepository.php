@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Product;
+use App\Service\SortConst;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -14,8 +15,9 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Product[]    findAll()
  * @method Product[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ProductRepository extends ServiceEntityRepository
+class ProductRepository extends ServiceEntityRepository implements SortConst
 {
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Product::class);
@@ -97,28 +99,55 @@ class ProductRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function getSorted()
+    public function getSorted($sortArray)
     {
-        return $this->createQueryBuilder('p')
+        $builder = $this->createQueryBuilder('p')
             ->andWhere('p.id > 0')
             ->leftJoin('p.prices', 'pr')
             ->addSelect('pr')
+            ->andWhere('pr.price > 0')
             ->leftJoin('p.action', 'ac')
             ->addSelect('ac')
             ->leftJoin('p.section', 'sn')
             ->addSelect('sn')
             ->leftJoin('sn.parent', 'sng')
             ->addSelect('sng')
+            ->leftJoin('pr.cartProducts', 'cp')
+            ->addSelect('cp')
+            ->leftJoin('cp.cart', 'cart')
+            ->addSelect('cart')
+            ->leftJoin('p.feedback', 'f')
+            ->addSelect('f.')
             ->select("
+            COUNT(f.product) as cf,
+            COUNT(pr.product) as ccp,
             p.name AS name,
 	        p.id AS id,
-	        max(pr.price) AS price,
+	        avg(pr.price) AS price,
             p.picture,
             ac.discount AS discount,
             sn.name AS section,
 	        sng.name AS group
-	        ")
-            ->orderBy('p.id', 'DESC')
-            ->groupBy('p');
+	        
+	        ");
+        foreach ($sortArray as $key => $sort) {
+            if ($sort != self::ASC && $sort != self::DESC) continue;
+            switch ($key) {
+                case self::SORT_RANK:
+                    $builder->orderBy('ccp', $sort);
+                    break;
+                case self::SORT_PRICE:
+                    $builder->orderBy('price', $sort);
+                    break;
+                case self::SORT_COMMENT:
+                    $builder->orderBy('cf', $sort);
+                    break;
+                case self::SORT_NEW:
+                    $builder->orderBy('id', $sort);
+                    break;
+            }
+        }
+
+        return $builder->groupBy('p.id');
     }
 }

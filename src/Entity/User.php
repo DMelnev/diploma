@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use App\Service\RolesConst;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -18,7 +19,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
  */
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface, RolesConst
 {
     use SoftDeleteableEntity;
     use TimestampableEntity;
@@ -179,14 +180,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+        $roles[] = self::ROLE_USER;
 
         return array_unique($roles);
     }
 
-    public function setRoles(array $roles): self
+    public function setRoles(string $roles): self
     {
-        $this->roles = $roles;
+        if ($roles) {
+            if (!in_array($roles, $this->roles)) {
+                $this->roles[] = $roles;
+            }
+        }
 
         return $this;
     }

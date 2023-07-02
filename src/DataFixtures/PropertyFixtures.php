@@ -18,6 +18,7 @@ class PropertyFixtures extends BaseFixtures implements DependentFixtureInterface
         $array = [
             'Количество ядер',
             'Частота процессора',
+            'Объем памяти',
             'Мощность',
             'Яркость',
             'Длина',

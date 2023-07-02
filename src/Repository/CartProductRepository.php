@@ -108,9 +108,7 @@ GROUP BY id
 ORDER BY sm DESC
 LIMIT %d", $count);
         $stmt = $conn->prepare($sql);
-//        $stmt->bindValue(1, 8);
         $result = $stmt->executeQuery();
-//        dd($result->fetchAllAssociative());
         return $result->fetchAllAssociative();
     }
 

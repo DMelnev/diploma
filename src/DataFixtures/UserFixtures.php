@@ -5,10 +5,11 @@ namespace App\DataFixtures;
 
 
 use App\Entity\User;
+use App\Service\RolesConst;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class UserFixtures extends BaseFixtures
+class UserFixtures extends BaseFixtures implements RolesConst
 {
     private UserPasswordHasherInterface $passwordHash;
 
@@ -26,15 +27,16 @@ class UserFixtures extends BaseFixtures
         $this->create(User::class, function (User $user) {
             $user
                 ->setName('admin')
-                ->setRoles(['ROLE_USER', 'ROLE_ADMIN'])
+                ->setRoles(self::ROLE_USER)
+                ->setRoles(self::ROLE_ADMIN)
                 ->setEmail('admin@email.ru')
                 ->setPassword($this->passwordHash->hashPassword($user, "123456"))
                 ->setConfirmedAt($this->faker->dateTimeBetween('-1 week'));
         });
-        $this->createMany(User::class, 20, function (User $user) {
+        $this->createMany(User::class, 30, function (User $user) {
             $user
                 ->setName($this->faker->firstName() . ' ' . $this->faker->lastName())
-                ->setRoles(['ROLE_USER'])
+                ->setRoles(self::ROLE_USER)
                 ->setEmail($this->faker->email())
                 ->setPassword($this->passwordHash->hashPassword($user, "123456"));
             if ($this->faker->boolean(70)) {

@@ -7,19 +7,23 @@ namespace App\DataFixtures;
 use App\Entity\Price;
 use App\Entity\Product;
 use App\Entity\User;
+use App\Service\RolesConst;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class PriceFixtures extends BaseFixtures implements DependentFixtureInterface
+class PriceFixtures extends BaseFixtures implements DependentFixtureInterface, RolesConst
 {
 
     function loadData(ObjectManager $manager)
     {
-        $this->createMany(Price::class, 100, function (Price $price) {
+        $this->createMany(Price::class, 50, function (Price $price) {
+            /** @var User $user */
+            $user = $this->getRandomReference(User::class);
+            $user->setRoles(self::ROLE_SELLER);
             $price
                 ->setProduct($this->getRandomReference(Product::class))
-                ->setSeller($this->getRandomReference(User::class))
-                ->setPrice($this->faker->numberBetween(100, 50000))
+                ->setSeller($user)
+                ->setPrice($this->faker->numberBetween(100, 500000))
                 ->setQuantity($this->faker->numberBetween(1, 50000));
         });
         $this->manager->flush();

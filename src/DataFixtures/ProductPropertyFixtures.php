@@ -19,8 +19,8 @@ class ProductPropertyFixtures extends BaseFixtures implements DependentFixtureIn
             $property
                 ->setProduct($this->getRandomReference(Product::class))
                 ->setProperty($this->getRandomReference(Property::class));
-            if ($this->faker->boolean(80)) {
-                $property->setValue($this->faker->numberBetween(1, 999));
+            if ($this->faker->boolean(95)) {
+                $property->setValue($this->faker->numberBetween(1, 7));
             }
         });
         $this->manager->flush();

@@ -39,28 +39,30 @@ class ProductPropertyRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return ProductProperty[] Returns an array of ProductProperty objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('p.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function propertiesGroup(string $name)
+    {
+        $result = $this->createQueryBuilder('pp')
+            ->distinct()
+            ->leftJoin('pp.property', 'prop')
+            ->addSelect('prop')
+            ->leftJoin('prop.unit', 'un')
+            ->addSelect('un')
+            ->andWhere('prop.name LIKE :name')
+            ->setParameter(':name', $name)
+            ->andWhere('pp.value > 0')
+            ->select('
+            pp.id,
+            pp.value,
+            un.unit
+            ')
+            ->orderBy('pp.value')
+            ->getQuery()
+            ->getResult();
+        $res = [];
+        foreach ($result as $item) {
+            $res[$item['value'] . ' ' . $item['unit']] = $item['id'];
+        }
+        return $res;
 
-//    public function findOneBySomeField($value): ?ProductProperty
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    }
 }

@@ -11,7 +11,7 @@ class UnitFixtures extends BaseFixtures
 {
     function loadData(ObjectManager $manager)
     {
-        $items = ['шт.', 'мм.', 'м.', 'г.', 'кг.', 'есть', 'нет', 'px'];
+        $items = ['шт.', 'мм.', 'м.', 'гр.', 'кг.', 'px'];
         $i = 0;
         foreach ($items as $item) {
             $entity = $this->create(Unit::class, function (Unit $unit) use ($item) {
