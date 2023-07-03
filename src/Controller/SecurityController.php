@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\Model\UserRegistrationFormModel;
 use App\Form\UserRegistrationFormType;
+use App\Repository\PaySystemRepository;
 use App\Repository\SectionRepository;
 use App\Repository\SocialRepository;
 use App\Security\LoginFormAuthenticator;
@@ -22,13 +23,22 @@ class SecurityController extends AbstractController
 {
     private SocialRepository $socialRepository;
     private SectionRepository $sectionRepository;
+    private PaySystemRepository $paySystemRepository;
+    private array $arrayBase;
 
     public function __construct(
         SocialRepository $socialRepository,
-        SectionRepository $sectionRepository)
+        SectionRepository $sectionRepository,
+        PaySystemRepository $paySystemRepository)
     {
         $this->socialRepository = $socialRepository;
         $this->sectionRepository = $sectionRepository;
+        $this->paySystemRepository = $paySystemRepository;
+        $this->arrayBase = [
+            'paySystems' => $this->paySystemRepository->findAll(),
+            'social' => $this->socialRepository->findAll(),
+            'categories' => $this->sectionRepository->getArray(),
+        ];
     }
 
     /**
@@ -36,12 +46,10 @@ class SecurityController extends AbstractController
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-        return $this->render('security/login.html.twig', [
+        return $this->render('security/login.html.twig', array_merge($this->arrayBase, [
             'last_username' => $authenticationUtils->getLastUsername(),
             'error' => $authenticationUtils->getLastAuthenticationError(),
-            'social' => $this->socialRepository->findAll(),
-            'categories' => $this->sectionRepository->getArray(),
-        ]);
+        ]));
     }
 
     /**
@@ -93,11 +101,9 @@ class SecurityController extends AbstractController
             }
         }
 
-        return $this->renderForm('security/sign_up.html.twig', [
+        return $this->renderForm('security/sign_up.html.twig', array_merge($this->arrayBase, [
             "registrationForm" => $form,
-            'social' => $this->socialRepository->findAll(),
-            'categories' => $this->sectionRepository->getArray(),
-        ]);
+        ]));
 
     }
 }

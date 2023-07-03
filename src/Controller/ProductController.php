@@ -6,6 +6,7 @@ use App\Entity\Product;
 use App\Entity\Section;
 use App\Form\FilterFormType;
 use App\Form\Model\FilterFormModel;
+use App\Repository\PaySystemRepository;
 use App\Repository\ProductPropertyRepository;
 use App\Repository\ProductRepository;
 use App\Repository\SectionRepository;
@@ -23,17 +24,26 @@ class ProductController extends AbstractController implements SortConst
 {
     private SocialRepository $socialRepository;
     private SectionRepository $sectionRepository;
+    private PaySystemRepository $paySystemRepository;
+    private array $arrayBase;
 
     /**
      * ProductController constructor.
      */
     public function __construct(
         SocialRepository $socialRepository,
-        SectionRepository $sectionRepository
+        SectionRepository $sectionRepository,
+        PaySystemRepository $paySystemRepository
     )
     {
         $this->socialRepository = $socialRepository;
         $this->sectionRepository = $sectionRepository;
+        $this->paySystemRepository = $paySystemRepository;
+        $this->arrayBase = [
+            'paySystems' => $this->paySystemRepository->findAll(),
+            'social' => $this->socialRepository->findAll(),
+            'categories' => $this->sectionRepository->getArray(),
+        ];
     }
 
     /**
@@ -81,7 +91,7 @@ class ProductController extends AbstractController implements SortConst
             $filter[self::FILTER_SECTION] = (int)$sectionId;
         }
         /** @var Section $section */
-        $section = ($sectionId) ? $sectionRepository->findOneBy(['id' => $sectionId]) : null;
+        $section = ($sectionId) ? $sectionRepository->findOneById($sectionId) : null;
         $sortArray = $sortHandler->handler($request);
         $qb = $productRepository->getSorted($sortArray, $filter);
 
@@ -95,15 +105,13 @@ class ProductController extends AbstractController implements SortConst
         $ppRepository->propertiesGroup('Объем памяти');
 
 
-        $response = $this->renderForm('product/catalog.html.twig', [
-            'social' => $this->socialRepository->findAll(),
-            'categories' => $this->sectionRepository->getArray(),
+        $response = $this->renderForm('product/catalog.html.twig', array_merge($this->arrayBase, [
             'pagination' => $pagination,
             'sort' => $sortArray,
             'form' => $form,
             'select' => $ppRepository->propertiesGroup(self::FILTER_TEMP),
             'section' => $section,
-        ]);
+        ]));
         foreach ($sortArray as $key => $item) {
             $time = ($item == self::EMPTY) ? time() - 1 : time() + (30 * 24 * 60 * 60);
             $response->headers->setCookie(new Cookie($key, $item, $time));
@@ -116,11 +124,9 @@ class ProductController extends AbstractController implements SortConst
      */
     public function product(Product $product): Response
     {
-        return $this->render('product/product.html.twig', [
-            'social' => $this->socialRepository->findAll(),
-            'categories' => $this->sectionRepository->getArray(),
+        return $this->render('product/product.html.twig', array_merge($this->arrayBase, [
             'product' => $product,
-        ]);
+        ]));
     }
 
     /**
@@ -128,10 +134,9 @@ class ProductController extends AbstractController implements SortConst
      */
     public function compare(): Response
     {
-        return $this->render('product/compare.html.twig', [
-            'social' => $this->socialRepository->findAll(),
-            'categories' => $this->sectionRepository->getArray(),
-        ]);
+        return $this->render('product/compare.html.twig', array_merge($this->arrayBase, [
+
+        ]));
     }
 
 }

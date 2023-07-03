@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\Model\UserEditFormModel;
 use App\Form\UserEditFormType;
 use App\Repository\CartRepository;
+use App\Repository\PaySystemRepository;
 use App\Repository\SectionRepository;
 use App\Repository\ShowHistoryRepository;
 use App\Repository\SocialRepository;
@@ -29,17 +30,26 @@ class CabinetController extends AbstractController
     private SectionRepository $sectionRepository;
     private CartRepository $cartRepository;
     private ShowHistoryRepository $showHistoryRepository;
+    private PaySystemRepository $paySystemRepository;
+    private array $arrayBase;
 
     public function __construct(
         SocialRepository $socialRepository,
         SectionRepository $sectionRepository,
         CartRepository $cartRepository,
-        ShowHistoryRepository $showHistoryRepository)
+        ShowHistoryRepository $showHistoryRepository,
+        PaySystemRepository $paySystemRepository)
     {
         $this->socialRepository = $socialRepository;
         $this->sectionRepository = $sectionRepository;
         $this->cartRepository = $cartRepository;
         $this->showHistoryRepository = $showHistoryRepository;
+        $this->paySystemRepository = $paySystemRepository;
+        $this->arrayBase = [
+            'paySystems' => $this->paySystemRepository->findAll(),
+            'social' => $this->socialRepository->findAll(),
+            'categories' => $this->sectionRepository->getArray(),
+        ];
     }
 
     /**
@@ -49,12 +59,10 @@ class CabinetController extends AbstractController
     {
         /** @var User $user */
         $user = $this->getUser();
-        return $this->render('user/account.html.twig', [
-            'social' => $this->socialRepository->findAll(),
-            'categories' => $this->sectionRepository->getArray(),
+        return $this->render('user/account.html.twig', array_merge($this->arrayBase, [
             'cart' => $this->cartRepository->getLast($user),
             'history' => $this->showHistoryRepository->getLast($user, $this->getParameter('user.show_prehistory')),
-        ]);
+        ]));
     }
 
     /**
@@ -90,7 +98,7 @@ class CabinetController extends AbstractController
                 ->setName($userModel->getName())
                 ->setPhone($userModel->getPhone()
                 );
-            if ($userModel->getPlainPassword()){
+            if ($userModel->getPlainPassword()) {
                 $user->setPassword($passwordHash->hashPassword(
                     $user,
                     $userModel->getPlainPassword()
@@ -100,11 +108,9 @@ class CabinetController extends AbstractController
             $entityManager->flush();
             $this->addFlash('success', 'Профиль успешно сохранен');
         }
-        return $this->renderForm('user/profile.html.twig', [
-            'social' => $this->socialRepository->findAll(),
-            'categories' => $this->sectionRepository->getArray(),
+        return $this->renderForm('user/profile.html.twig', array_merge($this->arrayBase, [
             'form' => $form,
-        ]);
+        ]));
     }
 
     /**
@@ -114,11 +120,9 @@ class CabinetController extends AbstractController
     {
         /** @var User $user */
         $user = $this->getUser();
-        return $this->render('user/historyView.html.twig', [
-            'social' => $this->socialRepository->findAll(),
-            'categories' => $this->sectionRepository->getArray(),
+        return $this->render('user/historyView.html.twig', array_merge($this->arrayBase, [
             'history' => $this->showHistoryRepository->getLast($user, $this->getParameter('user.show_history')),
-        ]);
+        ]));
     }
 
     /**
@@ -128,10 +132,8 @@ class CabinetController extends AbstractController
     {
         /** @var User $user */
         $user = $this->getUser();
-        return $this->render('user/historyOrder.html.twig', [
-            'social' => $this->socialRepository->findAll(),
-            'categories' => $this->sectionRepository->getArray(),
+        return $this->render('user/historyOrder.html.twig', array_merge($this->arrayBase, [
             'orders' => $this->cartRepository->getAll($user, $this->getParameter('user.cart_history')),
-        ]);
+        ]));
     }
 }

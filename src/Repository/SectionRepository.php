@@ -60,4 +60,15 @@ class SectionRepository extends ServiceEntityRepository
         return $list;
     }
 
+    public function findOneById(int $id): ?Section
+    {
+        return $this->createQueryBuilder('s')
+            ->leftJoin('s.parent', 'pt')
+            ->addSelect('pt')
+            ->andWhere('s.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
 }

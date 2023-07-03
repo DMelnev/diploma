@@ -7,10 +7,25 @@
         <div class="Middle-top">
             <div class="wrap">
                 <div class="Middle-header">
-                    <h1 class="Middle-title">Каталог</h1>
+                    {% if section is not null %}
+                        <h1 class="Middle-title">{{ section.name }}</h1>
+                    {% else %}
+                        <h1 class="Middle-title">Каталог</h1>
+                    {% endif %}
                     <ul class="breadcrumbs Middle-breadcrumbs">
                         <li class="breadcrumbs-item"><a href="{{ url('app_main') }}">Главная</a></li>
-                        <li class="breadcrumbs-item breadcrumbs-item_current"><span>Каталог</span></li>
+                        {% if section is not null %}
+                            <li class="breadcrumbs-item"><a href="{{ url('app_catalog') }}">Каталог</a></li>
+                            {% if section.parent is not null %}
+                                <li class="breadcrumbs-item">
+                                    <a href="{{ url('app_catalog',{'id':section.id}) }}">{{ section.parent.name }}</a>
+                                </li>
+                            {% endif %}
+                            <li class="breadcrumbs-item"><span>{{ section.name }}</span></li>
+                        {% else %}
+                            <li class="breadcrumbs-item"><span>Каталог</span></li>
+                        {% endif %}
+
                     </ul>
                 </div>
             </div>

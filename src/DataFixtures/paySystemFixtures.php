@@ -21,9 +21,13 @@ class paySystemFixtures extends BaseFixtures
                 'link' => '/',
                 'picture' => 'mastercard.png'
             ],
-            'random' => [
+            'american' => [
                 'link' => '/',
-                'picture' => 'random.png'
+                'picture' => 'american.png'
+            ],
+            'delta' => [
+                'link' => '/',
+                'picture' => 'delta.png'
             ],
         ];
         $i = 0;

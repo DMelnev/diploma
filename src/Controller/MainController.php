@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Repository\BannerRepository;
 use App\Repository\CartProductRepository;
 use App\Repository\DayOfferRepository;
+use App\Repository\PaySystemRepository;
 use App\Repository\ProductRepository;
 use App\Repository\SectionRepository;
 use App\Repository\SocialRepository;
@@ -20,6 +21,7 @@ class MainController extends AbstractController
     private CartProductRepository $cartProductRepository;
     private DayOfferRepository $dayOfferRepository;
     private ProductRepository $productRepository;
+    private PaySystemRepository $paySystemRepository;
 
     /**
      * MainController constructor.
@@ -30,7 +32,8 @@ class MainController extends AbstractController
         BannerRepository $bannerRepository,
         CartProductRepository $cartProductRepository,
         DayOfferRepository $dayOfferRepository,
-        ProductRepository $productRepository)
+        ProductRepository $productRepository,
+        PaySystemRepository $paySystemRepository)
     {
         $this->socialRepository = $socialRepository;
         $this->sectionRepository = $sectionRepository;
@@ -38,6 +41,7 @@ class MainController extends AbstractController
         $this->cartProductRepository = $cartProductRepository;
         $this->dayOfferRepository = $dayOfferRepository;
         $this->productRepository = $productRepository;
+        $this->paySystemRepository = $paySystemRepository;
     }
 
     /**
@@ -48,6 +52,7 @@ class MainController extends AbstractController
     {
         $dayOffer = $this->dayOfferRepository->getOffer();
         return $this->render('main/index.html.twig', [
+            'paySystems' => $this->paySystemRepository->findAll(),
             'social' => $this->socialRepository->findAll(),
             'categories' => $this->sectionRepository->getArray(),
             'banners' => $this->bannerRepository->getRandom($this->getParameter('main.count_of_banners')),
