@@ -101,6 +101,11 @@ class Product
      */
     private $prices;
 
+    /**
+     * @ORM\OneToMany(targetEntity=ProductPicture::class, mappedBy="product")
+     */
+    private $pictures;
+
     public function __construct()
     {
         $this->dayOffers = new ArrayCollection();
@@ -109,6 +114,7 @@ class Product
         $this->feedback = new ArrayCollection();
         $this->showHistories = new ArrayCollection();
         $this->prices = new ArrayCollection();
+        $this->pictures = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -397,6 +403,36 @@ class Product
     public function setPicture($picture): self
     {
         $this->picture = $picture;
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ProductPicture>
+     */
+    public function getPictures(): Collection
+    {
+        return $this->pictures;
+    }
+
+    public function addPicture(ProductPicture $picture): self
+    {
+        if (!$this->pictures->contains($picture)) {
+            $this->pictures[] = $picture;
+            $picture->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removePicture(ProductPicture $picture): self
+    {
+        if ($this->pictures->removeElement($picture)) {
+            // set the owning side to null (unless already changed)
+            if ($picture->getProduct() === $this) {
+                $picture->setProduct(null);
+            }
+        }
+
         return $this;
     }
 }

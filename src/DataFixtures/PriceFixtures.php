@@ -16,7 +16,7 @@ class PriceFixtures extends BaseFixtures implements DependentFixtureInterface, R
 
     function loadData(ObjectManager $manager)
     {
-        $this->createMany(Price::class, 50, function (Price $price) {
+        $this->createMany(Price::class, 200, function (Price $price) {
             /** @var User $user */
             $user = $this->getRandomReference(User::class);
             $user->setRoles(self::ROLE_SELLER);

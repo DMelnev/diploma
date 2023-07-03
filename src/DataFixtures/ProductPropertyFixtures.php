@@ -15,7 +15,7 @@ class ProductPropertyFixtures extends BaseFixtures implements DependentFixtureIn
 
     function loadData(ObjectManager $manager)
     {
-        $this->createMany(ProductProperty::class, 100, function (ProductProperty $property) {
+        $this->createMany(ProductProperty::class, 500, function (ProductProperty $property) {
             $property
                 ->setProduct($this->getRandomReference(Product::class))
                 ->setProperty($this->getRandomReference(Property::class));

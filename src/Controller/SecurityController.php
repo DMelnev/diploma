@@ -10,6 +10,7 @@ use App\Repository\SectionRepository;
 use App\Repository\SocialRepository;
 use App\Security\LoginFormAuthenticator;
 use App\Service\Mailer;
+use App\Service\RolesConst;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 
-class SecurityController extends AbstractController
+class SecurityController extends AbstractController implements RolesConst
 {
     private SocialRepository $socialRepository;
     private SectionRepository $sectionRepository;
@@ -85,7 +86,7 @@ class SecurityController extends AbstractController
                     $user,
                     $userModel->getPlainPassword()
                 ))
-                ->setRoles(['ROLE_USER'])
+                ->setRoles(self::ROLE_USER)
                 ->setActivationCode(substr(md5($user->getPassword() . rand(0, 999)), rand(0, 15), 16));
 
             if ($user->getEmail() && $mailer->sendWelcome($user)) {

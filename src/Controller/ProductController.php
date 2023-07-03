@@ -7,6 +7,7 @@ use App\Entity\Section;
 use App\Form\FilterFormType;
 use App\Form\Model\FilterFormModel;
 use App\Repository\PaySystemRepository;
+use App\Repository\ProductPictureRepository;
 use App\Repository\ProductPropertyRepository;
 use App\Repository\ProductRepository;
 use App\Repository\SectionRepository;
@@ -122,10 +123,13 @@ class ProductController extends AbstractController implements SortConst
     /**
      * @Route ("/product/{id}", name="app_product")
      */
-    public function product(Product $product): Response
+    public function product(
+        Product $product,
+        ProductPictureRepository $pictureRepository): Response
     {
         return $this->render('product/product.html.twig', array_merge($this->arrayBase, [
             'product' => $product,
+            'pictures' => $pictureRepository->findBy(['product' => $product]),
         ]));
     }
 

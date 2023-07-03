@@ -17,6 +17,7 @@
             <excludedPath path="/node_modules" />
             <excludedPath path="/public/build" />
             <excludedPath local="true" path="$PROJECT_DIR$/public/assets/img/products" />
+            <excludedPath path="/public/assets/img" />
           </excludedPaths>
         </serverdata>
       </paths>
