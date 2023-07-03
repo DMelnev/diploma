@@ -2,9 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Feedback;
 use App\Entity\Product;
 use App\Entity\Section;
+use App\Entity\User;
+use App\Form\FeedbackFormType;
 use App\Form\FilterFormType;
+use App\Form\Model\FeedbackFormModel;
 use App\Form\Model\FilterFormModel;
 use App\Repository\PaySystemRepository;
 use App\Repository\ProductPictureRepository;
@@ -125,18 +129,48 @@ class ProductController extends AbstractController implements SortConst
      */
     public function product(
         Product $product,
-        ProductPictureRepository $pictureRepository): Response
+        ProductPictureRepository $pictureRepository,
+        Request $request
+    ): Response
     {
-        return $this->render('product/product.html.twig', array_merge($this->arrayBase, [
+        /** @var User $user */
+        $user = $this->getUser();
+        $formModel = new FeedbackFormModel();
+        if ($user) {
+            $formModel->setEmail($user->getEmail());
+            $formModel->setName($user->getName());
+        }
+        $form = $this->createForm(FeedbackFormType::class, $formModel);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var FeedbackFormModel $formModel */
+            $formModel = $form->getData();
+            $comment = new Feedback();
+            $comment
+                ->setUserName($formModel->getName())
+                ->setText($formModel->getText())
+                ->setEmail($formModel->getEmail())
+                ->setProduct($product)
+                ->setPublishedAt(new \DateTime('now'));
+            if ($user) {
+                $comment->setUser($user);
+            }
+
+
+        }
+
+        return $this->renderForm('product/product.html.twig', array_merge($this->arrayBase, [
             'product' => $product,
             'pictures' => $pictureRepository->findBy(['product' => $product]),
+            'form' => $form,
         ]));
     }
 
     /**
      * @Route ("/product/compare", name="app_compare")
      */
-    public function compare(): Response
+    public
+    function compare(): Response
     {
         return $this->render('product/compare.html.twig', array_merge($this->arrayBase, [
 

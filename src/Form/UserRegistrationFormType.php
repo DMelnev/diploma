@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -19,14 +20,14 @@ class UserRegistrationFormType extends AbstractType
         $builder
             ->add('email', EmailType::class, [
                 'label' => '* Enter E-mail address:',
-                'required' => false,
+                'required' => true,
                 'attr' => [
                     'placeholder' => 'E-mail address'
                 ]
             ])
-            ->add('name', null, [
+            ->add('name', TextType::class, [
                 'label' => '* Enter your name:',
-                'required' => false,
+                'required' => true,
                 'attr' => [
                     'placeholder' => 'Name',
                 ]
@@ -36,13 +37,13 @@ class UserRegistrationFormType extends AbstractType
                 'invalid_message' => 'Passwords must be equal!',
                 'options' => ['attr' => ['class' => 'form-input'],
                     'label_attr' => ['class' => 'form-label']],
-                'required' => false,
+                'required' => true,
                 'first_options'  => ['label' => '* Enter password:'],
                 'second_options' => ['label' => '* Repeat Password:'],
             ])
             ->add('agreeTerms', CheckboxType::class, [
                 'label' => 'Consent to the processing of personal data',
-                'required' => false,
+                'required' => true,
             ]);
     }
 

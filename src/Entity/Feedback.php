@@ -72,6 +72,16 @@ class Feedback
      */
     private $publishedAt;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $userName;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $email;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -134,6 +144,30 @@ class Feedback
     public function setPublishedAt(?\DateTimeInterface $publishedAt): self
     {
         $this->publishedAt = $publishedAt;
+
+        return $this;
+    }
+
+    public function getUserName(): ?string
+    {
+        return $this->userName;
+    }
+
+    public function setUserName(string $userName): self
+    {
+        $this->userName = $userName;
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
 
         return $this;
     }
