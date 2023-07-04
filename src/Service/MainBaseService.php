@@ -40,7 +40,7 @@ class MainBaseService
 
     public function getCategories(): ?array
     {
-        $this->sectionRepository->getArray();
+        return $this->sectionRepository->getArray();
     }
 
     public function getAllBase(): ?array
