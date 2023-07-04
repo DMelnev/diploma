@@ -49,17 +49,14 @@ class CabinetController extends AbstractController
             ->setPhone($user->getPhone())
             ->setName($user->getName())
             ->setEmail($user->getEmail());
-
         $form = $this->createForm(UserEditFormType::class, $formType);
         $form->handleRequest($request);
-        $properties = $this->cabinetService->getAllBase();
-        $properties['form'] = $form;
         if ($form->isSubmitted() && $form->isValid()) {
-            $properties['form'] = $this->cabinetService->handleProfile($form, $user);
+            $this->cabinetService->handleProfile($form, $user);
             $this->addFlash('success', 'Профиль сохранен');
         }
 
-        return $this->renderForm('user/profile.html.twig', $properties);
+        return $this->renderForm('user/profile.html.twig', $this->cabinetService->getProfile($form));
     }
 
     /**

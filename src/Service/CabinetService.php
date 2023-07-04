@@ -62,10 +62,9 @@ class CabinetService extends MainBaseService
     /**
      * @param FormInterface $form
      * @param User $user
-     * @return FormInterface
      * @throws FilesystemException
      */
-    public function handleProfile(FormInterface $form, User $user): FormInterface
+    public function handleProfile(FormInterface $form, User $user)
     {
         /** @var UserEditFormModel $userModel */
         $userModel = $form->getData();
@@ -86,7 +85,17 @@ class CabinetService extends MainBaseService
         }
         $this->entityManager->persist($user);
         $this->entityManager->flush();
-        return $form;
+    }
+
+    /**
+     * @param FormInterface $form
+     * @return array|null
+     */
+    public function getProfile(FormInterface $form): ?array
+    {
+        $result = $this->getAllBase();
+        $result['form'] = $form;
+        return $result;
     }
 
     /**
