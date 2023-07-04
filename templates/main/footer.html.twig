@@ -28,8 +28,8 @@
             <div class="row-block">
                 <strong class="Footer-title">Дополнительно</strong>
                 <ul class="menu menu_vt Footer-menu">
-                    <li class="menu-item"><a class="menu-link" href="">Контакты</a></li>
-                    <li class="menu-item"><a class="menu-link" href="">О нас</a></li>
+                    <li class="menu-item"><a class="menu-link" href="{{ url('app_contacts') }}">Контакты</a></li>
+                    <li class="menu-item"><a class="menu-link" href="{{ url('app_about') }}">О нас</a></li>
                 </ul>
             </div>
             <div class="row-block">
@@ -48,7 +48,7 @@
                         {% for item in  paySystems %}
                             <div>
                                 <img src="{{ absolute_url('../img/payments/'~ item.picture) }}"
-                                            alt="{{ item.description }}+"/>
+                                     alt="{{ item.description }}+"/>
                             </div>
                         {% endfor %}
                     </div>
