@@ -5,18 +5,12 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\Model\UserEditFormModel;
 use App\Form\UserEditFormType;
-use App\Repository\CartRepository;
-use App\Repository\PaySystemRepository;
-use App\Repository\SectionRepository;
-use App\Repository\ShowHistoryRepository;
-use App\Repository\SocialRepository;
-use App\Service\MyFiles;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Service\CabinetService;
+use League\Flysystem\FilesystemException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -26,30 +20,11 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class CabinetController extends AbstractController
 {
-    private SocialRepository $socialRepository;
-    private SectionRepository $sectionRepository;
-    private CartRepository $cartRepository;
-    private ShowHistoryRepository $showHistoryRepository;
-    private PaySystemRepository $paySystemRepository;
-    private array $arrayBase;
+    private CabinetService $cabinetService;
 
-    public function __construct(
-        SocialRepository $socialRepository,
-        SectionRepository $sectionRepository,
-        CartRepository $cartRepository,
-        ShowHistoryRepository $showHistoryRepository,
-        PaySystemRepository $paySystemRepository)
+    public function __construct(CabinetService $cabinetService)
     {
-        $this->socialRepository = $socialRepository;
-        $this->sectionRepository = $sectionRepository;
-        $this->cartRepository = $cartRepository;
-        $this->showHistoryRepository = $showHistoryRepository;
-        $this->paySystemRepository = $paySystemRepository;
-        $this->arrayBase = [
-            'paySystems' => $this->paySystemRepository->findAll(),
-            'social' => $this->socialRepository->findAll(),
-            'categories' => $this->sectionRepository->getArray(),
-        ];
+        $this->cabinetService = $cabinetService;
     }
 
     /**
@@ -59,58 +34,32 @@ class CabinetController extends AbstractController
     {
         /** @var User $user */
         $user = $this->getUser();
-        return $this->render('user/account.html.twig', array_merge($this->arrayBase, [
-            'cart' => $this->cartRepository->getLast($user),
-            'history' => $this->showHistoryRepository->getLast($user, $this->getParameter('user.show_prehistory')),
-        ]));
+        return $this->render('user/account.html.twig', $this->cabinetService->getIndex($user));
     }
 
     /**
      * @Route ("/cabinet/profile", name="app_user_profile")
+     * @throws FilesystemException
      */
-    public function profile(
-        Request $request,
-        MyFiles $uploader,
-        EntityManagerInterface $entityManager,
-        UserPasswordHasherInterface $passwordHash
-    ): Response
+    public function profile(Request $request): Response
     {
         /** @var User $user */
         $user = $this->getUser();
-        $formType = new UserEditFormModel;
-        $formType
+        $formType = (new UserEditFormModel)
             ->setPhone($user->getPhone())
             ->setName($user->getName())
             ->setEmail($user->getEmail());
 
         $form = $this->createForm(UserEditFormType::class, $formType);
         $form->handleRequest($request);
-
+        $properties = $this->cabinetService->getAllBase();
+        $properties['form'] = $form;
         if ($form->isSubmitted() && $form->isValid()) {
-            /** @var UserEditFormModel $userModel */
-            $userModel = $form->getData();
-            $image = $form->get('avatar')->getData();
-            if ($image) {
-                $filename = $uploader->uploadDeleteFile($image, $user->getAvatar());
-                $user->setAvatar($filename);
-            }
-            $user
-                ->setName($userModel->getName())
-                ->setPhone($userModel->getPhone()
-                );
-            if ($userModel->getPlainPassword()) {
-                $user->setPassword($passwordHash->hashPassword(
-                    $user,
-                    $userModel->getPlainPassword()
-                ));
-            }
-            $entityManager->persist($user);
-            $entityManager->flush();
-            $this->addFlash('success', 'Профиль успешно сохранен');
+            $properties['form'] = $this->cabinetService->getProfile($form, $user);
+            $this->addFlash('success', 'Профиль сохранен');
         }
-        return $this->renderForm('user/profile.html.twig', array_merge($this->arrayBase, [
-            'form' => $form,
-        ]));
+
+        return $this->renderForm('user/profile.html.twig', $properties);
     }
 
     /**
@@ -120,9 +69,7 @@ class CabinetController extends AbstractController
     {
         /** @var User $user */
         $user = $this->getUser();
-        return $this->render('user/historyView.html.twig', array_merge($this->arrayBase, [
-            'history' => $this->showHistoryRepository->getLast($user, $this->getParameter('user.show_history')),
-        ]));
+        return $this->render('user/historyView.html.twig', $this->cabinetService->getView($user));
     }
 
     /**
@@ -132,8 +79,6 @@ class CabinetController extends AbstractController
     {
         /** @var User $user */
         $user = $this->getUser();
-        return $this->render('user/historyOrder.html.twig', array_merge($this->arrayBase, [
-            'orders' => $this->cartRepository->getAll($user, $this->getParameter('user.cart_history')),
-        ]));
+        return $this->render('user/historyOrder.html.twig', $this->cabinetService->getOrders($user));
     }
 }

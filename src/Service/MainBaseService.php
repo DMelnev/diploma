@@ -28,21 +28,33 @@ class MainBaseService
         $this->sectionRepository = $sectionRepository;
     }
 
+    /**
+     * @return array|null
+     */
     public function getSocial(): ?array
     {
         return $this->socialRepository->findAll();
     }
 
+    /**
+     * @return array|null
+     */
     public function getPaySystem(): ?array
     {
         return $this->paySystemRepository->findAll();
     }
 
+    /**
+     * @return array|null
+     */
     public function getCategories(): ?array
     {
         return $this->sectionRepository->getArray();
     }
 
+    /**
+     * @return array|null
+     */
     public function getAllBase(): ?array
     {
         $result = [];
