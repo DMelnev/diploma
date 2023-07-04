@@ -15,7 +15,7 @@ class DayOfferFixtures extends BaseFixtures implements DependentFixtureInterface
     function loadData(ObjectManager $manager)
     {
         $this->create(DayOffer::class, function (DayOffer $dayOffer) {
-            $dayOffer->setText($this->faker->realTextBetween(10, 20))
+            $dayOffer->setText($this->faker->realTextBetween(5, 20))
                 ->setPicture('card.jpg')
                 ->setProduct($this->getRandomReference(Product::class))
                 ->setUntil($this->faker->dateTimeBetween('now', '+7 days'));

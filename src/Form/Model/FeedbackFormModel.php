@@ -22,9 +22,9 @@ class FeedbackFormModel
     /**
      * @Assert\NotBlank(message="Введите Текст")
      * @Assert\Length(
-     *     min="6",
+     *     min="3",
      *     max="255",
-     *     minMessage="Текст должен быть не менее 6 символов",
+     *     minMessage="Текст должен быть не менее 3 символов",
      *     maxMessage="Текст должен быть не более 255 символов"
      * )
      */

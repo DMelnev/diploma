@@ -15,7 +15,7 @@ class ShowHistoryFixtures extends BaseFixtures implements DependentFixtureInterf
 
     function loadData(ObjectManager $manager)
     {
-        $this->createMany(ShowHistory::class, 100, function (ShowHistory $history) {
+        $this->createMany(ShowHistory::class, 50, function (ShowHistory $history) {
             $history->setProduct($this->getRandomReference(Product::class))
                 ->setUser($this->getRandomReference(User::class))
                 ->setDate($this->faker->dateTimeBetween('-1 week'));

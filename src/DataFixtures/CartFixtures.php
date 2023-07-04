@@ -16,7 +16,7 @@ class CartFixtures extends BaseFixtures implements DependentFixtureInterface
 
     function loadData(ObjectManager $manager)
     {
-        $this->createMany(Cart::class, 100, function (Cart $cart) {
+        $this->createMany(Cart::class, 50, function (Cart $cart) {
             if ($this->faker->boolean(95)) {
                 $cart->setUser($this->getRandomReference(User::class));
             }

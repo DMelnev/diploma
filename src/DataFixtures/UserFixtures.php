@@ -33,7 +33,7 @@ class UserFixtures extends BaseFixtures implements RolesConst
                 ->setPassword($this->passwordHash->hashPassword($user, "123456"))
                 ->setConfirmedAt($this->faker->dateTimeBetween('-1 week'));
         });
-        $this->createMany(User::class, 30, function (User $user) {
+        $this->createMany(User::class, 10, function (User $user) {
             $user
                 ->setName($this->faker->firstName() . ' ' . $this->faker->lastName())
                 ->setRoles(self::ROLE_USER)

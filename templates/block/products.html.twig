@@ -10,7 +10,7 @@
         </a>
         <div class="Card-content">
             <strong class="Card-title">
-                <a href="#">{{ product.name }}</a>
+                <a href="{{ url('app_product', {'id':product.id}) }}">{{ product.name }}</a>
             </strong>
             <div class="Card-description">
                 <div class="Card-cost">

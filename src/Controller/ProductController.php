@@ -18,6 +18,7 @@ use App\Repository\SectionRepository;
 use App\Repository\SocialRepository;
 use App\Service\SortConst;
 use App\Service\SortHandler;
+use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Cookie;
@@ -130,7 +131,8 @@ class ProductController extends AbstractController implements SortConst
     public function product(
         Product $product,
         ProductPictureRepository $pictureRepository,
-        Request $request
+        Request $request,
+        EntityManagerInterface $entityManager
     ): Response
     {
         /** @var User $user */
@@ -155,7 +157,8 @@ class ProductController extends AbstractController implements SortConst
             if ($user) {
                 $comment->setUser($user);
             }
-
+            $entityManager->persist($comment);
+            $entityManager->flush();
 
         }
 

@@ -15,7 +15,7 @@ class FeedbackFixtures extends BaseFixtures implements DependentFixtureInterface
 
     function loadData(ObjectManager $manager)
     {
-        $this->createMany(Feedback::class, 500, function (Feedback $feedback) {
+        $this->createMany(Feedback::class, 100, function (Feedback $feedback) {
             $feedback
                 ->setUser($this->getRandomReference(User::class))
                 ->setProduct($this->getRandomReference(Product::class))

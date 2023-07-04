@@ -18,7 +18,7 @@ class PicturesFixtures extends BaseFixtures implements DependentFixtureInterface
             'slider.png',
             'videoca.png',
         ];
-        for ($i = 0; $i < 300; $i++) {
+        for ($i = 0; $i < 200; $i++) {
             $this->create(ProductPicture::class, function (ProductPicture $picture) use ($array) {
                 $picture
                     ->setProduct($this->getRandomReference(Product::class))
