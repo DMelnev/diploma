@@ -62,4 +62,28 @@ class MainController extends AbstractController
             'limited' => $this->productRepository->getLimited($this->getParameter('main.count_of_limited'), $dayOffer['id'])
         ]);
     }
+
+    /**
+     * @Route("/about", name="app_about")
+     */
+    public function about():Response
+    {
+        return $this->render('main/about.html.twig',[
+            'paySystems' => $this->paySystemRepository->findAll(),
+            'social' => $this->socialRepository->findAll(),
+            'categories' => $this->sectionRepository->getArray(),
+        ]);
+    }
+
+    /**
+     * @Route("/contacts", name="app_contacts")
+     */
+    public function contacts():Response
+    {
+        return $this->render('main/contacts.html.twig',[
+            'paySystems' => $this->paySystemRepository->findAll(),
+            'social' => $this->socialRepository->findAll(),
+            'categories' => $this->sectionRepository->getArray(),
+        ]);
+    }
 }

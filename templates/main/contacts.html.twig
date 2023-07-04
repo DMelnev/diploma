@@ -1,0 +1,125 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Контакты{% endblock %}
+
+{% set slider = false %}
+
+{% block body %}
+<div class="Middle Middle_top">
+    <div class="Middle-top">
+        <div class="wrap">
+            <div class="Middle-header">
+                <h1 class="Middle-title">Контакты</h1>
+                <ul class="breadcrumbs Middle-breadcrumbs">
+                    <li class="breadcrumbs-item"><a href="index.html">Главная</a></li>
+                    <li class="breadcrumbs-item breadcrumbs-item_current"><span>Контакты</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="Section Section_column Section_columnRight Section_columnWide">
+        <div class="wrap">
+            <div class="Section-column">
+                <div class="Section-columnSection Section-columnSection_mark">
+                    <div class="media media_advantage">
+                        <div class="media-image"><img src="assets/img/icons/advantages/shipping.svg" alt="shipping.svg"/>
+                        </div>
+                        <div class="media-content">
+                            <strong class="media-title">Доставка</strong>
+                            <p class="media-text">Доставка по всему миру</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="Section-columnSection Section-columnSection_mark">
+                    <div class="media media_advantage">
+                        <div class="media-image"><img src="assets/img/icons/advantages/moneyBack.svg" alt="moneyBack.svg"/>
+                        </div>
+                        <div class="media-content">
+                            <strong class="media-title">Возврат денег</strong>
+                            <p class="media-text">Не даем никаких гарантий</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="Section-columnSection Section-columnSection_mark">
+                    <div class="media media_advantage">
+                        <div class="media-image"><img src="assets/img/icons/advantages/support.svg" alt="support.svg"/>
+                        </div>
+                        <div class="media-content">
+                            <strong class="media-title">Поддержка</strong>
+                            <p class="media-text">Денег нет, но вы держитесь</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="Section-columnSection Section-columnSection_mark">
+                    <div class="media media_advantage">
+                        <div class="media-image"><img src="assets/img/icons/advantages/quality.svg" alt="quality.svg"/>
+                        </div>
+                        <div class="media-content">
+                            <strong class="media-title">Гарантия качества</strong>
+                            <p class="media-text">Наш завхоз рекомендует</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="Section-columnSection">
+                    <header class="Section-header">
+                        <strong class="Section-title">Мы в соцсетях</strong>
+                    </header>
+                    <div class="Section-columnContent">
+                        <div class="Footer-payments Footer-payments_column">
+                            <div><img src="assets/img/icons/socialContent/fb.png" alt="fb.png"/></div>
+                            <div><img src="assets/img/icons/socialContent/tw.png" alt="tw.png"/></div>
+                            <div><img src="assets/img/icons/socialContent/in.png" alt="in.png"/></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="Section-content">
+                <div class="Map">
+                    <script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3Aab0c930ee3de165a0eaa7eab3c5e810a0019bf38d9c3e3b44ca793b8ba10aad9&amp;amp;width=100%25&amp;amp;height=486&amp;amp;lang=ru_RU&amp;amp;scroll=true"></script>
+                </div>
+                <div class="Contacts Contacts_main">
+                    <div class="Contacts-block">
+                        <div class="media">
+                            <div class="media-image"><img src="assets/img/icons/contacts/phone.svg" alt="phone.svg"/></div>
+                            <div class="media-content">Тел: 8-800-200-600</div>
+                        </div>
+                    </div>
+                    <div class="Contacts-block">
+                        <div class="media">
+                            <div class="media-image"><img src="assets/img/icons/contacts/address.svg" alt="address.svg"/></div>
+                            <div class="media-content">
+                                Россия, Свердловская область, Каменск-Уральский, Заводской проезд, 1
+                            </div>
+                        </div>
+                    </div>
+                    <div class="Contacts-block">
+                        <div class="media">
+                            <div class="media-image"><img src="assets/img/icons/contacts/mail.svg" alt="mail.svg"/></div>
+                            <div class="media-content">Email: megano@skillbox_diploma.com</div>
+                        </div>
+                    </div>
+                </div>
+                <header class="Section-header Section-header_sm">
+                    <h2 class="Section-title">Обратная связь</h2>
+                </header>
+                <form class="form form_contacts" action="#" method="post">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="row-block">
+                                <input class="form-input" id="name" name="name" type="text" placeholder="Ваше Имя"/>
+                            </div>
+                            <div class="row-block">
+                                <input class="form-input" id="mail" name="mail" type="text" placeholder="Ваш Email"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-textarea" name="message" id="message" placeholder="Сообщение..."></textarea>
+                    </div>
+                    <div class="form-group"><a class="btn btn_muted form-btn" href="#">Отправить</a></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
