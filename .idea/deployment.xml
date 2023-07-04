@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" serverName="diploma" remoteFilesAllowedToDisappearOnAutoupload="false">
+  <component name="PublishConfigData" autoUpload="On explicit save action" serverName="diploma" autoUploadExternalChanges="true">
     <serverData>
       <paths name="diploma">
         <serverdata>
@@ -11,6 +11,12 @@
             <excludedPath local="true" path="$PROJECT_DIR$/.idea" />
             <excludedPath local="true" path="$PROJECT_DIR$/var" />
             <excludedPath local="true" path="$PROJECT_DIR$/vendor" />
+            <excludedPath path="/.env.local" />
+            <excludedPath path="/var" />
+            <excludedPath path="/vendor" />
+            <excludedPath path="/node_modules" />
+            <excludedPath path="/public/build" />
+            <excludedPath local="true" path="$PROJECT_DIR$/public/assets/img/products" />
           </excludedPaths>
         </serverdata>
       </paths>
@@ -22,5 +28,6 @@
         </serverdata>
       </paths>
     </serverData>
+    <option name="myAutoUpload" value="ON_EXPLICIT_SAVE" />
   </component>
 </project>

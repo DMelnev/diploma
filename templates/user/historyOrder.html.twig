@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}History Order{% endblock %}
+
+{% block body %}
+    <div class="Middle Middle_top">
+        <div class="Middle-top">
+            <div class="wrap">
+                <div class="Middle-header">
+                    <h1 class="Middle-title">История заказов</h1>
+                    <ul class="breadcrumbs Middle-breadcrumbs">
+                        <li class="breadcrumbs-item"><a href="{{ url('app_main') }}">Главная</a></li>
+                        <li class="breadcrumbs-item"><a href="{{ url('app_user_account') }}">Личный кабинет</a></li>
+                        <li class="breadcrumbs-item breadcrumbs-item_current"><span>История заказов</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="Section Section_column Section_columnLeft">
+            <div class="wrap">
+                {% include('/block/navigateProfile.html.twig') %}
+                <div class="Section-content">
+                    <div class="Orders">
+
+                        {% for order in orders %}
+                            {% include '/block/showOrder.html.twig' with{'order':order} %}
+                        {% else %}
+                            Заказов не найдено
+                        {% endfor %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

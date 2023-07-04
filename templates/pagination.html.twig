@@ -1,0 +1,76 @@
+{% if pageCount > 1 %}
+    <div class="Pagination">
+        <div class="Pagination-ins">
+
+
+            {% if previous is defined %}
+                <a class="Pagination-element Pagination-element_prev"
+                   href="{{ path(route, query|merge({(pageParameterName): previous})) }}">
+                    <img src="{{ asset('assets/img/icons/prevPagination.svg') }}" alt="prev">
+                </a>
+
+            {% else %}
+                <a class="Pagination-element Pagination-element_prev">
+                    <img src="{{ asset('assets/img/icons/prevPagination.svg') }}" alt="prev">
+                </a>
+            {% endif %}
+
+            {% if startPage > 1 %}
+                <a class="Pagination-element" href="{{ path(route, query|merge({(pageParameterName): 1})) }}">
+                    <span class="Pagination-text">1</span>
+                </a>
+                {% if startPage == 3 %}
+                    <a class="Pagination-element" href="{{ path(route, query|merge({(pageParameterName): 2})) }}">
+                        <span class="Pagination-text">2</span>
+                    </a>
+                {% elseif startPage != 2 %}
+                    <a class="Pagination-element">
+                        <span class="Pagination-text">&hellip;</span>
+                    </a>
+                {% endif %}
+            {% endif %}
+
+            {% for page in pagesInRange %}
+                {% if page != current %}
+                    <a class="Pagination-element" href="{{ path(route, query|merge({(pageParameterName): page})) }}">
+                        <span class="Pagination-text">{{ page }}</span>
+                    </a>
+                {% else %}
+                    <a class="Pagination-element Pagination-element_current" href="#">
+                        <span class="Pagination-text">{{ page }}</span>
+                    </a>
+                {% endif %}
+            {% endfor %}
+
+            {% if pageCount > endPage %}
+                {% if pageCount > (endPage + 1) %}
+                    {% if pageCount > (endPage + 2) %}
+                        <a class="Pagination-element">
+                            <span class="Pagination-text">&hellip;</span>
+                        </a>
+                    {% else %}
+                        <a class="Pagination-element"
+                           href="{{ path(route, query|merge({(pageParameterName): (pageCount - 1)})) }}">
+                            <span class="Pagination-text">{{ pageCount -1 }}</span>
+                        </a>
+                    {% endif %}
+                {% endif %}
+                <a class="Pagination-element" href="{{ path(route, query|merge({(pageParameterName): pageCount})) }}">
+                    <span class="Pagination-text">{{ pageCount }}</span>
+                </a>
+            {% endif %}
+
+            {% if next is defined %}
+                <a class="Pagination-element Pagination-element_prev"
+                   href="{{ path(route, query|merge({(pageParameterName): next})) }}">
+                    <img src="{{ asset('assets/img/icons/nextPagination.svg') }}" alt="next">
+                </a>
+            {% else %}
+                <a class="Pagination-element Pagination-element_prev">
+                    <img src="{{ asset('assets/img/icons/nextPagination.svg') }}" alt="next">
+                </a>
+            {% endif %}
+
+        </div>
+    </div>
+{% endif %}

@@ -4,17 +4,37 @@
     "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {
-        "php": ">=7.2.5",
+        "php": ">=7.4",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "doctrine/doctrine-bundle": "^2.10",
+        "doctrine/doctrine-migrations-bundle": "^3.2",
+        "doctrine/orm": "^2.15",
+        "knplabs/knp-paginator-bundle": "^5.9",
+        "league/commonmark": "^2.4",
+        "liip/imagine-bundle": "^2.11",
+        "oneup/flysystem-bundle": "^4.4",
+        "sensio/framework-extra-bundle": "^6.2",
+        "stof/doctrine-extensions-bundle": "^1.7",
+        "symfony/asset": "5.4.*",
         "symfony/console": "5.4.*",
         "symfony/dotenv": "5.4.*",
         "symfony/flex": "^1.17|^2",
+        "symfony/form": "5.4.*",
         "symfony/framework-bundle": "5.4.*",
+        "symfony/mailer": "5.4.*",
         "symfony/runtime": "5.4.*",
-        "symfony/yaml": "5.4.*"
-    },
-    "require-dev": {
+        "symfony/security-bundle": "5.4.*",
+        "symfony/translation": "5.4.*",
+        "symfony/twig-bundle": "5.4.*",
+        "symfony/validator": "5.4.*",
+        "symfony/webpack-encore-bundle": "^1.17",
+        "symfony/yaml": "5.4.*",
+        "twig/cssinliner-extra": "^3.6",
+        "twig/extra-bundle": "^2.12|^3.0",
+        "twig/intl-extra": "^3.6",
+        "twig/markdown-extra": "^3.6",
+        "twig/twig": "^2.12|^3.0"
     },
     "config": {
         "allow-plugins": {
@@ -64,5 +84,12 @@
             "allow-contrib": false,
             "require": "5.4.*"
         }
+    },
+    "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "^3.4",
+        "fakerphp/faker": "^1.22",
+        "symfony/maker-bundle": "^1.43",
+        "symfony/stopwatch": "5.4.*",
+        "symfony/web-profiler-bundle": "5.4.*"
     }
 }

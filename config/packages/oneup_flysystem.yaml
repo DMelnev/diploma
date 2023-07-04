@@ -1,0 +1,11 @@
+# Read the documentation: https://github.com/1up-lab/OneupFlysystemBundle
+oneup_flysystem:
+    adapters:
+        uploads_adapter:
+            local:
+                location: '%kernel.project_dir%/public/%uploads%'
+
+    filesystems:
+        uploads_picture:
+            adapter: uploads_adapter
+
