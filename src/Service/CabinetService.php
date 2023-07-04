@@ -65,7 +65,7 @@ class CabinetService extends MainBaseService
      * @return FormInterface
      * @throws FilesystemException
      */
-    public function getProfile(FormInterface $form, User $user): FormInterface
+    public function handleProfile(FormInterface $form, User $user): FormInterface
     {
         /** @var UserEditFormModel $userModel */
         $userModel = $form->getData();

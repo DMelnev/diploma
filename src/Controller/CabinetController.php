@@ -55,7 +55,7 @@ class CabinetController extends AbstractController
         $properties = $this->cabinetService->getAllBase();
         $properties['form'] = $form;
         if ($form->isSubmitted() && $form->isValid()) {
-            $properties['form'] = $this->cabinetService->getProfile($form, $user);
+            $properties['form'] = $this->cabinetService->handleProfile($form, $user);
             $this->addFlash('success', 'Профиль сохранен');
         }
 
