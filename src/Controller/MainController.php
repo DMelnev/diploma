@@ -9,37 +9,28 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class MainController extends AbstractController
 {
-    private MainService $service;
-
-    /**
-     * MainController constructor.
-     */
-    public function __construct(MainService $service)
-    {
-        $this->service = $service;
-    }
 
     /**
      * @Route("/", name="app_main")
      */
-    public function index(): Response
+    public function index(MainService $service): Response
     {
-        return $this->render('main/index.html.twig', $this->service->getAll());
+        return $this->render('main/index.html.twig', $service->getAll());
     }
 
     /**
      * @Route("/about", name="app_about")
      */
-    public function about(): Response
+    public function about(MainService $service): Response
     {
-        return $this->render('main/about.html.twig', $this->service->getAllBase());
+        return $this->render('main/about.html.twig', $service->getAllBase());
     }
 
     /**
      * @Route("/contacts", name="app_contacts")
      */
-    public function contacts(): Response
+    public function contacts(MainService $service): Response
     {
-        return $this->render('main/contacts.html.twig', $this->service->getAllBase());
+        return $this->render('main/contacts.html.twig', $service->getAllBase());
     }
 }

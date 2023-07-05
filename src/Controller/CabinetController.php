@@ -20,28 +20,23 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class CabinetController extends AbstractController
 {
-    private CabinetService $cabinetService;
 
-    public function __construct(CabinetService $cabinetService)
-    {
-        $this->cabinetService = $cabinetService;
-    }
 
     /**
      * @Route("/cabinet", name="app_user_account")
      */
-    public function index(): Response
+    public function index(CabinetService $cabinetService): Response
     {
         /** @var User $user */
         $user = $this->getUser();
-        return $this->render('user/account.html.twig', $this->cabinetService->getIndex($user));
+        return $this->render('user/account.html.twig', $cabinetService->getIndex($user));
     }
 
     /**
      * @Route ("/cabinet/profile", name="app_user_profile")
      * @throws FilesystemException
      */
-    public function profile(Request $request): Response
+    public function profile(Request $request, CabinetService $cabinetService): Response
     {
         /** @var User $user */
         $user = $this->getUser();
@@ -52,30 +47,30 @@ class CabinetController extends AbstractController
         $form = $this->createForm(UserEditFormType::class, $formType);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->cabinetService->handleProfile($form, $user);
+            $cabinetService->handleProfile($form, $user);
             $this->addFlash('success', 'Профиль сохранен');
         }
 
-        return $this->renderForm('user/profile.html.twig', $this->cabinetService->getProfile($form));
+        return $this->renderForm('user/profile.html.twig', $cabinetService->getProfile($form));
     }
 
     /**
      * @Route ("/cabinet/view", name="app_user_view_history")
      */
-    public function viewHistory(): Response
+    public function viewHistory(CabinetService $cabinetService): Response
     {
         /** @var User $user */
         $user = $this->getUser();
-        return $this->render('user/historyView.html.twig', $this->cabinetService->getView($user));
+        return $this->render('user/historyView.html.twig', $cabinetService->getView($user));
     }
 
     /**
      * @Route ("/cabinet/order", name="app_user_order_history")
      */
-    public function orderHistory(): Response
+    public function orderHistory(CabinetService $cabinetService): Response
     {
         /** @var User $user */
         $user = $this->getUser();
-        return $this->render('user/historyOrder.html.twig', $this->cabinetService->getOrders($user));
+        return $this->render('user/historyOrder.html.twig', $cabinetService->getOrders($user));
     }
 }
