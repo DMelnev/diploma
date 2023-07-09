@@ -86,8 +86,6 @@ class ProductService extends MainBaseService implements SortConst
             } catch (\Exception $e) {
                 throw new BadRequestHttpException('что то пошло не так ' . $e->getMessage());
             }
-
-
         }
         return $this->getAllBase([
             'form' => $form,
@@ -137,11 +135,14 @@ class ProductService extends MainBaseService implements SortConst
         ];
     }
 
-    public function setCatalogCookie($array, Response $response)
+    public function setCatalogCookie($array, Response $response): Response
     {
-        foreach ($array as $key => $item) {
-            $time = ($item == self::EMPTY) ? time() - 1 : time() + (30 * 24 * 60 * 60);
-            $response->headers->setCookie(new Cookie($key, $item, $time));
+        if (isset($array['sort'])) {
+            foreach ($array['sort'] as $key => $item) {
+                $time = ($item == self::EMPTY) ? time() - 1 : time() + (30 * 24 * 60 * 60);
+                $response->headers->setCookie(new Cookie($key, $item, $time));
+            }
         }
+        return $response;
     }
 }

@@ -90,13 +90,14 @@ class MainService extends MainBaseService
      */
     public function getAll(): ?array
     {
-        $result = $this->getAllBase();
-        $result['banners'] = $this->getBanners();
-        $result['products'] = $this->getTopProducts();
-        $result['hotOffer'] = $this->getHotOffer();
         $dayOffer = $this->getDayOffer();
-        $result['dayOffer'] = $dayOffer;
-        $result['limited'] = $this->getLimited($dayOffer['id']);
-        return $result;
+
+        return $this->getAllBase([
+            'banners' => $this->getBanners(),
+            'products' => $this->getTopProducts(),
+            'hotOffer' => $this->getHotOffer(),
+            'dayOffer' => $dayOffer,
+            'limited' => $this->getLimited($dayOffer['id']),
+        ]);
     }
 }

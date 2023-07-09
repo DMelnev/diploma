@@ -3,7 +3,6 @@
 
 namespace App\Service;
 
-
 use App\Entity\User;
 use App\Form\Model\UserEditFormModel;
 use App\Repository\CartRepository;
@@ -53,10 +52,12 @@ class CabinetService extends MainBaseService
      */
     public function getIndex(User $user): ?array
     {
-        $result = $this->getAllBase();
-        $result['cart'] = $this->cartRepository->getLast($user);
-        $result['history'] = $this->showHistoryRepository->getLast($user, $this->parameterBag->get('user.show_prehistory'));
-        return $result;
+        return $this->getAllBase(
+            [
+                'cart' => $this->cartRepository->getLast($user),
+                'history' => $this->showHistoryRepository->getLast($user, $this->parameterBag->get('user.show_prehistory')),
+            ]
+        );
     }
 
     /**
@@ -93,9 +94,9 @@ class CabinetService extends MainBaseService
      */
     public function getProfile(FormInterface $form): ?array
     {
-        $result = $this->getAllBase();
-        $result['form'] = $form;
-        return $result;
+        return $this->getAllBase([
+            'form' => $form,
+            ]);
     }
 
     /**
@@ -104,9 +105,9 @@ class CabinetService extends MainBaseService
      */
     public function getView(User $user): ?array
     {
-        $result = $this->getAllBase();
-        $result['history'] = $this->showHistoryRepository->getLast($user, $this->parameterBag->get('user.show_history'));
-        return $result;
+        return $this->getAllBase([
+                'history' => $this->showHistoryRepository->getLast($user, $this->parameterBag->get('user.show_history')),
+            ]);
     }
 
     /**
@@ -115,8 +116,8 @@ class CabinetService extends MainBaseService
      */
     public function getOrders(User $user): ?array
     {
-        $result = $this->getAllBase();
-        $result['orders'] = $this->cartRepository->getAll($user, $this->parameterBag->get('user.cart_history'));
-        return $result;
+        return $this->getAllBase([
+            'orders' => $this->cartRepository->getAll($user, $this->parameterBag->get('user.cart_history')),
+            ]);
     }
 }

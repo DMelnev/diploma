@@ -3,52 +3,20 @@
 namespace App\Controller;
 
 use App\Entity\Product;
-use App\Entity\Section;
 use App\Entity\User;
 use App\Form\FeedbackFormType;
 use App\Form\FilterFormType;
 use App\Form\Model\FeedbackFormModel;
 use App\Form\Model\FilterFormModel;
-use App\Repository\PaySystemRepository;
-use App\Repository\ProductPropertyRepository;
-use App\Repository\ProductRepository;
-use App\Repository\SectionRepository;
-use App\Repository\SocialRepository;
 use App\Service\ProductService;
 use App\Service\SortConst;
-use App\Service\SortHandler;
-use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ProductController extends AbstractController implements SortConst
 {
-    private SocialRepository $socialRepository;
-    private SectionRepository $sectionRepository;
-    private PaySystemRepository $paySystemRepository;
-    private array $arrayBase;
-
-    /**
-     * ProductController constructor.
-     */
-    public function __construct(
-        SocialRepository $socialRepository,
-        SectionRepository $sectionRepository,
-        PaySystemRepository $paySystemRepository
-    )
-    {
-        $this->socialRepository = $socialRepository;
-        $this->sectionRepository = $sectionRepository;
-        $this->paySystemRepository = $paySystemRepository;
-        $this->arrayBase = [
-            'paySystems' => $this->paySystemRepository->findAll(),
-            'social' => $this->socialRepository->findAll(),
-            'categories' => $this->sectionRepository->getArray(),
-        ];
-    }
 
     /**
      * @Route("/product/catalog/{id}", defaults={"id" = null}, name="app_catalog")
@@ -81,13 +49,11 @@ class ProductController extends AbstractController implements SortConst
             }
         }
 
-
         $array = $service->getCatalog($form, $request, $filter);
-        $response = $this->renderForm('product/catalog.html.twig', $array);
-        if (isset($array['sort'])) {
-            $service->setCatalogCookie($array['sort'], $response);
-        }
-        return $response;
+        return $service->setCatalogCookie(
+            $array,
+            $this->renderForm('product/catalog.html.twig', $array)
+        );
     }
 
     /**

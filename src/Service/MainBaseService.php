@@ -53,6 +53,7 @@ class MainBaseService
     }
 
     /**
+     * @param array $array
      * @return array|null
      */
     public function getAllBase(array $array = []): ?array
