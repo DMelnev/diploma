@@ -5,11 +5,9 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\Model\UserRegistrationFormModel;
 use App\Form\UserRegistrationFormType;
-use App\Repository\PaySystemRepository;
-use App\Repository\SectionRepository;
-use App\Repository\SocialRepository;
 use App\Security\LoginFormAuthenticator;
 use App\Service\Mailer;
+use App\Service\MainBaseService;
 use App\Service\RolesConst;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,35 +20,17 @@ use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 
 class SecurityController extends AbstractController implements RolesConst
 {
-    private SocialRepository $socialRepository;
-    private SectionRepository $sectionRepository;
-    private PaySystemRepository $paySystemRepository;
-    private array $arrayBase;
-
-    public function __construct(
-        SocialRepository $socialRepository,
-        SectionRepository $sectionRepository,
-        PaySystemRepository $paySystemRepository)
-    {
-        $this->socialRepository = $socialRepository;
-        $this->sectionRepository = $sectionRepository;
-        $this->paySystemRepository = $paySystemRepository;
-        $this->arrayBase = [
-            'paySystems' => $this->paySystemRepository->findAll(),
-            'social' => $this->socialRepository->findAll(),
-            'categories' => $this->sectionRepository->getArray(),
-        ];
-    }
 
     /**
      * @Route("/login", name="app_login")
      */
-    public function login(AuthenticationUtils $authenticationUtils): Response
+    public function login(AuthenticationUtils $authenticationUtils, MainBaseService $service): Response
     {
-        return $this->render('security/login.html.twig', array_merge($this->arrayBase, [
-            'last_username' => $authenticationUtils->getLastUsername(),
-            'error' => $authenticationUtils->getLastAuthenticationError(),
-        ]));
+        return $this->render('security/login.html.twig',
+            $service->getAllBase([
+                'last_username' => $authenticationUtils->getLastUsername(),
+                'error' => $authenticationUtils->getLastAuthenticationError(),
+            ]));
     }
 
     /**
@@ -70,7 +50,8 @@ class SecurityController extends AbstractController implements RolesConst
         UserAuthenticatorInterface $userAuthenticator,
         LoginFormAuthenticator $authenticator,
         EntityManagerInterface $em,
-        Mailer $mailer
+        Mailer $mailer,
+        MainBaseService $service
     ): ?Response
     {
         $form = $this->createForm(UserRegistrationFormType::class);
@@ -102,9 +83,10 @@ class SecurityController extends AbstractController implements RolesConst
             }
         }
 
-        return $this->renderForm('security/sign_up.html.twig', array_merge($this->arrayBase, [
-            "registrationForm" => $form,
-        ]));
+        return $this->renderForm('security/sign_up.html.twig',
+            $service->getAllBase([
+                "registrationForm" => $form,
+            ]));
 
     }
 }
