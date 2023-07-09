@@ -11,7 +11,7 @@ class MainBaseService
 {
     private SocialRepository $socialRepository;
     private PaySystemRepository $paySystemRepository;
-    private SectionRepository $sectionRepository;
+    protected SectionRepository $sectionRepository;
 
     /**
      * MainBaseService constructor.
@@ -55,13 +55,13 @@ class MainBaseService
     /**
      * @return array|null
      */
-    public function getAllBase(): ?array
+    public function getAllBase(array $array = []): ?array
     {
         $result = [];
         $result['social'] = $this->getSocial();
         $result['paySystems'] = $this->getPaySystem();
         $result['categories'] = $this->getCategories();
-        return $result;
+        return array_merge($result, $array);
     }
 
 }
